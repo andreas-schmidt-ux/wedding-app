@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="A &amp; V">
+  <meta name="theme-color" content="#f0e8d8">
+  <title>Andreas &amp; Vanessa · 25. Juni 2026</title>
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIkFuZHJlYXMgJiBWYW5lc3NhIFx1MDBiNyAyNS4gSnVuaSAyMDI2IiwgInNob3J0X25hbWUiOiAiQSAmIFYiLCAiZGVzY3JpcHRpb24iOiAiVW5zZXJlIEhvY2h6ZWl0IFx1MjAxMyBGb3RvcyAmIEVyaW5uZXJ1bmdlbiIsICJzdGFydF91cmwiOiAiLi8iLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgImJhY2tncm91bmRfY29sb3IiOiAiI2ZhZjZmMCIsICJ0aGVtZV9jb2xvciI6ICIjZjBlOGQ4IiwgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0LXByaW1hcnkiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFNQUFBQURBQ0FZQUFBQlMzR3dIQUFBSzRrbEVRVlI0bk8yZFRXd2RWeFhIejBSUFlzT0NSWmRRdFZsMkVXZ0ZjUkI2U3BldFVyZXg0N2l3SmFLMjQxUjF3MGNDZ2xJSWdoaUlKWWdkdjZqS3VrbjhrWkxHVFpkRlQwaDJRTFFZVVVBQ04wMUFnT1JBVzZXb1NLREh3cGwwM3ZqZU8zZG03dGZjOC85Sm84UXo0NWx6My96Lzk1ejdybWNtV2ZuaUF6MENnQ2t0SXZxdjd5QUE4RVdMaVA3bk93Z0FmTkZLS0lFQkFGdFFBZ0hXdEpJRUdRRHdCV01Bd0pwV1FnbEtJTUFXWkFEQUdoZ0FzS2FWSkNpQkFGK1FBUUJyTUJFR1dJT0pNTUFhVElRQjFtQU1BRmlERWdpd0JvTmd3QnFVUUlBMW1BZ0RyRUVHQUt6QkdBQ3dCdDhDQWRiczhCMEFBRDVKUG5qbnIzZ3VFR0FMTWdCZ1RRdmRQK0FNTWdCZ0RRd0FXTk9pSG9vZ3dCZGtBTUFhR0FDd0JnWUFySUVCQUd0Z0FNQWFHQUN3QmdZQXJJRUJBR3RnQU1DYVZnOHp3WUF4eUFDQU5UQUFZQTBNQUZnREF3RFd3QUNBTlRBQVlBME1BRmdEQTBUQStnY2ZYL01kUTFPQkFRQnJrbi9mdW9HcDRBYXovcDlQM08zOWQzM2s1b0RQV0pvSU1nQmdEUXpRWUxLOXYraG5VQXllREJjWnVKN2xTTjdIR0tDUXNmMlB0WFgzUGZ2U2xhNkxPSTVjK00yUFpmdk5Qdm5KcjlpTUl5WmdBQWw1MFk4ZjJxa3RxTTY1alRhUkdUUGs0emgrYkhlWGlPajJReTlJeTUyUC92cExBMFJFSjZldkdZc2pWbUNBREhWRUw2T0tHV1NpRjVFMVFpcDhFVENER0JpQStnVm5RdlF5T3VjMjJpb0JadU5RaVQ3UDdZZGVXRk9KUDgvSjZXdktPRGpoMVFDdmZmV1JsZlQvRC8vbzFYMCtZa2hGWjFQNGVSNGMvS2swampMQ3I4djluMzNPMWFtMkVjSzFKeUpLM3Q5ODI3a0JYdnZhb3l1eWJRLy84S3F6RDJOc2FOQzUrRk1lZk93bjIrSndLZjZVKy9kOHkrbjVRcm4yS1MzWEp3eUJWSEJFMVFhM0tuU1A5L3FWWi9xT1YwYjhhVDJ2UXZkNGI2MmUyQ3FKTHIzTXNpUnluZ0ZVUFVDS3paNmdiSyt2STNvWk91ZjQyRDMzYUIxTFIvUXlkTTFnT3h2NHZ2WWlXR1VBWGZFWGlWNm50eHdiR214bmp5TTZaNUg0aTBTdkcwZjJPQ296dkxWNndubEo1QnMyR2FDdStPdVVDS0p6VnhXL2lUaUtNb0l0RTRTWUFhd1pJTnZZZktOOERJVEdoZ2JiS3ZHTGhHK2pMaDRiR215ckJDZ1N2bzg0ZkpoQXBSTmJ1akJlQW9rYW1LN3pNY29uNmgvMGluQXBmdFgyZHpZM3Q2MnpOVGc5ZStubHJzb0VZME9EM2diR0xqV1UzRGFjQVg2dWNQamVYUERaZmZQYlRERmVVUHJreGQreGROSEhDOHFQclBnNzV6YmF0dUlRY1gzMWhIRDl5ZWxyMXVKUVhmc3lHcXFMVVFPb0FrK3hKWFFSVFJSL3lxY3k4d1F1a0puZ1BzZURZdGNhaXY1K0FOL2lUNUdKWHpiWWZlUEtNemJEMFk1RFpveFkyRUc5SGhsYmREQjVQc1V5WGxCdlora3NYKzZHRUVlZThhSEJ0cXZQcTdOOFdkb0J1SXhEQzRQbk01b0I5azYvb2t4TlJkdE5vOVA3cXk2OEtZcDZmOWxYcitPSGRuYkhoeCt2YktDeTNEZndUZUg2NDhkMk80dkR0WWFpTDRIeTFKblpOVW0rNUFnMXJ0Z3hib0M5MDYvc3k3dFV0TTRtdXIyVjdkN2ZWQnd1czRBS2wxbkFsWWFzL1NtRTYzSW5UK0dNcjRQU2g2aDQxaldObzdOOHVmdkd5dFMyN2VPSGRuWmRab2ZPOHVYdTliWHZiVnQvL05qdXJ1dnM0RUpEckVxZzBNdU0wT09Ma2VnTUVHdTVFR3U3Zk9QRUFGUHpVMnZwNHVKOFRTdC9aRCtudUw1aFJ4YUhpeHQyWEd2RnVnSHlEWEhWc0R4TktTK2FFcWNOZkdobFI2L1hJMXVMckFGVDgxTnJ0czZwZzgwMjE0MUR4Zmp3NDIwWHNmdUl3NGRXZWozREUyRlpudTA4cTNSdjBYWmJ6Qy85TEloYi8wS0pJd1I4YXNXS0FYUUQ5bVVDRUE2K3RSTGR0MEFBbEFFR0FLd3hib0N5cVFwbEVGOUMwQW95QUdBTkRCQVFFd2VlQ0dJT0lKUTRYQkNkQVdSZkw3cWVUWlhGVVRTYjZ1TXhqU0o4UEtiUkI5RVpnQ2krMmRUWTJoTVNabStKMUp3QjNZYkRHQ1lPUEJIRTdYMzVPTFRMRHNzeE80MmpDb2JiRzJVR21GOThLWXd5U0JLSHJMd29pazkyUE5NVWxUK3U0bkJCbEFZZ2lxZHNpS1Vkb2JLalIwUW1seXFZanFFb2pvbVIvVzBiNTZ3YXg4VElmaTF4Mlk3VmRSeFZNTjFtNHhsZ1pteW0xTnZLeSs2dnk1bEF5aUJaSEdtWmNmaU82SXJpa2gzSEZHa2NSZVdQeVRoQzBFcTBKUkNSK25Fakx1T1FsUStwMkhRZjNtV2JzZy92aW9Hb0RhRHFyUTVycG52YmNZU0F5ODhpTkpMMy9yRlJ0UnhUY3ZUczBjSy8yN0JWL3VSWnYzcFV1TDV6YnFQdFVwdzNmdmw5NFhyUnMwR3p2Yi9OR0l0S24yenZieXNPbjFxeGxnR0tBbllsZmlLaVhZL09DTmU3TG9YdS9jdzNoT3Z6TDh0d1ZmcVVFYjlOZkdyRmFna2tDOXlsK0ZOa29wSmxCMXZJUkpXYUlCK25yVjYzclBodFowcGZXakUvRTV4YlpwNDYxZGVBbWFkT0RUaWJpYzBzWnhZdVNTL2crdFdqVzRLd2VQN0RJL3ZiUmJWMlBoT2NXYmhrL0tHOTJUaDAvOTdIUmh5aGFDVjU3KzkvN3VsOENMR3cvdXFYbGR0M1BYTEsrRGtQSHh3cS9ZNndlei85ZFd0eEZBbS9yKzVYZEJ3eHdNNEFSTVVtU011UU9oYy9GVnRLbmJkRW1veWpqUGpybnJzSnNEUUFVYkVKVXNxWVFVZjBlY3ErSjdoS0hMcWxEamZ4RXpFMkFOR1dVSHk5S1Q1L1BGOXZpcGNkajRQNGlaZ2JnS2k4Q1V3aE1wT1BtMUE0aTUrSUtIbVh1UUZTZnF0WkVwa2dMLzY1ak9CdS91b0h6dUxJaTMrT2tmQlRZSUFNazVhemdhalhGNGx1OHVDUThpWFdkUkgxK2h6RlR3UURiR015TTRBMFlRYlZ1RUVsdW13Y0pzeWdHamR3RlQ4UlVmTHUzLzRFQXdpWUhCMHUvWTFPU3RGZ2VlN2lzdmF4OG5HWUhDeVhpU05XWUFBTjhpS3NnZ214aFJKSFRNQUFKU2tqUXB0aUN5V09wZ01EQU5aRWZVTU1BRVZZZTAwcUlKb2NIZDYyYnU3aXNvZElnQXlVUUJZUUNUOFBqQkFHS0lFTW95UCtNdnNCdXlBREdDUXZhbEV2cjdNUGNBZkdBQmttUjRlTkNWSjJuTG1MeTlaNy82ckg1MmhHcTY5SmJkcENSSlYvTnl1NjJRdEx5bjFuTHl6ZDNYZHlkTmhLTzZyZysvUDNzV0FNY0ljalR4N28rN2ZKWkExbTgzZGlBQ1VRQTJUaWpzSHNkVUVHWUFyRXZ3VU1JQ0EyY1JTMWgydjVRd1FERUpFWndXZEZWSFM4N0haYjR1TXM2akxBQUphUW1TQzI3TkowTUFnMnlPeUZwVDZCaDFwNndJUWZnZ3dnb2FwSWRFWHRXdnl5OW5BdmxWcFVZK0lrQm81OGZrUytzZUpuTTN0K1VYcnNkSnVMejMzMi9HSi9ES0p6TXIvK0tJRXNjbGZzQWFFMFBFTlFBaW1JWFN3aEd0UTFNRUNHMmZPTFVZc2lka05Yd2ZoclVwdTA1QVdScmhldGErcHlXbUZvMzdHRnNDQUQzRUVtbEtjajdUVlZ4dUFFRENBQTR1QUREQUJZdzlZQXNaWTJJcERSNUxBMVFKWWlnY1JtRmhqaVE5alBCQk1SaVQ2RDB5OHUwTk5mT0tqY3A3SEUxSmFhWUNhWXFGL29nQlVzUzZBcWdtKzZTVTYvdU5EM0w5aUNwUUVBU0VuKzlaYy9vaUFFYkVFR0FLeHBvZnNIbkVFR0FLeUJBUUJyWUFEQW1zYlBCTC81aTR2enZtUGd6Z09mRzUzd0hVTlZrbi9lL0VPekhRQkFEVkFDQWRiQUFJQTFNQUJnRFF3QVdBTURBTmJBQUlBMU1BQmdUYXZPV3dVQmFEcTRKZElRcTg4ZldNbXYyL1A4MGo1VCt3TTdvQVF5Z0VqTUp0Y0RlOEFBTlNrU2JYNTcyZjJCWFdDQUd1aUtOZDJ2N1A3QVBzbXRHNy9IS0xnQ0xrU0tNWUY5a0FFQWEyQUF3Qm9ZQUxBR0JnQ3NTVzY5L1NZR3dSVlovYzZJdFlId25tOHZZZ0RzQUdTQUd0Z1NLY1R2RGhpZ0pxYkZDdkc3aGZWYklrMHRBd1pGNjdzdDNKWmtFMk1BNjZ4cGpoVk1HZ25vZ1JMSUFSQjJ1Q0FET0VhV0RXQVNQeUFET0FaQ0R3dGtBSStrMlFDbThFZmpudzNhWkFhZVc5aTM5dDJESzdnRy9rZzJyLzhPbno1Z0M4WUFnRFV3QUdBTkRBQllBd01BMXNBQWdEVjRUU3BnRFRJQVlBME1BRmlEbVdEQUdtUUF3Qm9ZQUxBR0JnQ3NnUUVBYTJBQXdCb1lBTEFHQmdDc2dRRUFhLzRQdGVzTjEvRjFxMkVBQUFBQVNVVk9SSzVDWUlJPSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn0sIHsic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBZ0FBQUFJQUNBWUFBQUQwZU5UNkFBQWI0MGxFUVZSNG5PM2RUYXh0WjFrSDhIV2FNM1RBZ0tFU1pNaEFnU2h0WW03S0VOSWl0S1ZGcHhMdEo2R0FBaG9SRkJOYWxBS2hwUmRKeDlEUGl5MjFEREUzSnIwTlVTd1JOZEh5cGRIQlJZdUJCQ2NlQjdlN1BYZmYvYkhXWHUvWGVwL2ZMemxKYysrNWU2LzlydFgzK2IvUFdudXRvNmQvNi9VbkF3QVF5dkV3RFA5WGV5TUFnTEtPaDJIUUFRQ0FZQVFBQUFqSUtRQUFDRWdIQUFBQ0VnQUFJS0RqbytGSUFBQ0FZRndEQUFBQk9RVUFBQUVKQUFBUWtBQUFBQUc1QmdBQUFqbytPdkl0QUFDSXhpa0FBQWhJQUFDQWdGd0RBQUFCNlFBQVFFQUNBQUFFNUZrQUFCQ1Fhd0FBSUNDbkFBQWdJQUVBQUFJU0FBQWdJTmNBQUVCQW5nVUFBQUU1QlFBQUFRa0FBQkNRYXdBQUlDQWRBQUFJU0FBQWdJQThDd0FBQW5JTkFBQUU1QlFBQUFRa0FBQkFRQUlBQUFUa0dnQUFDTWl6QUFBZ0lLY0FBQ0FnQVFBQUFuSU5BQUFFcEFNQUFBRUpBQUFRa0djQkFFQkFyZ0VBZ0lDY0FnQ0FnQVFBQUFoSUFBQ0FnRndEQUFBQmVSWUFBQVRrRkFBQUJDUUFBRUJBcmdFQWdJQjBBQUFnSUFFQUFBTHlMQUFBQ01nMUFBQVFrRk1BQUJDUUFBQUFBUWtBQUJDUWF3QUFJS0NyYW04QUFGRGUwYzllL0hlbkFBQWdHQjBBQUFoSUFBQ0FnQVFBQUFoSUFBQ0FnQVFBQUFoSUFBQ0FnSTU5QnhBQTR0RUJBSUNBQkFBQUNFZ0FBSUNBQkFBQUNFZ0FBSUNBQkFBQUNFZ0FBSUNBam9jVGR3SUFnR2gwQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ29PT1RrNVBhMndBQUZLWURBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQUFCQ1FBQUVKQUFBQ3pPOHovNytRdTF0d0dXVGdBQWdJQUVBR0JSVnF0L1hRQ1lSd0FBZ0lBRUFHQXgxbGY5dWdCd3VPUGg1S1QyTmdBY3pod0dCOUVCQUJiaCtmLzloWTJyL1cxL0R1d21BQUJBUUFJQTBMeDlxM3hkQUpoT0FBQ0FnQVFBb0dsalYvZTZBRENOQUFBQUFRa0FRTE9tcnVwMUFXQzhZOStnQlhwaVRvTnhkQUNBSm4zN3dOWDhvZjhPb2hFQUFDQWdBUUJvenR4VnZDNEE3Q2NBQUVCQUFnRFFsRlNyZDEwQTJPMjQ5Z1pBNjI1OTUvVm41cjdHRjcvNnRmTXB0Z1VnbGFPZi91Z0h2alVEdys1Q2Y5dDdYamU3Z0o5OTZJVXJYajl5TU5nMDNuYzkvUGQvbnZwOTduLzNMLy91NnI4amp6ZXNFd0FJYTFNQlNsSG9wem9kREhvdVVKdkcreU1mZnZQR3ovdVROMzFwZHZ2KzUvNzJ0Ni9lOU9mMzNQdGNpUEdHZlFRQXdtaWw0Ty9UU3lDWVV2QTNtUk1DdGhYL1RRUUNvaElBNk43cFF0Uml3ZC9uN0VNdm5GbFNZVG85M2xNSy9qWlRnc0NVd3IvTlBmYyt0Nmp4aGtNSkFIUnBmZlc1eE1LL2J0VVphTEU0clk5M2lzSy9ibGNRU0ZINDE2MDZBeTJPTjZRZ0FOQ1ZwYS8yeDJxbEs1QjZ0Yi9QcGhDUW8vaXYweFdnUndJQVhZaFMrTmZWQ2dLbEMvKzZuN3pwU3hkS0ZQNTFnZ0E5RVFBUys4YnZ2ZlhwYlgvM2xqLzcrblVsdHlXQ3FJVi9YYWtnVUx2d3QwSVF5TWNjV280QWtNaXVnM2FkZzNnK2hYK3pYRUZBNGQ5TUVFakhIRnFlQUREVGxJTjJuWU40T29WL25GUkJRT0VmUnhBNG5EbTBucU9mWHZ5K0FIQ2diM3pvYlFjZnVDdHYrZFF6RHVDUmJyM2g3V2VHUWVHZjRvM1hmKzdnZjdzYWI0Vi92Ris4NXFPMU4yRlJ6S0YxQ1FBSFNuSGdyamlBZDFzVm9tRlEvQTl4OXFFWHpuengzRk9qeCszMGVDdiswOTF6NzNPVHhqc3FjMmg5QXNBQlVoNjRLdzdnemF6NjB4blREYkRxVDBjM1lEdHphQnM4RHBobUtmNXAvZDNYM3Jmejd4WC90TDc3N0NkcWJ3THNwQU13VVk3a3VpTEJYdEpxeTMvVDAvekdhdTF6bkc1UnQ5cnlQMzJQL3FsYSt4eE9DYnpDSE5vT0FXQWlCMjllTGF6NjV4VDZxV3ArempkZS83a21WdjF6Q3YxVU5UK25Vd0tYbUVQYklRQk1rUFBBWFlsOEFOY3MvbE9LL3B6VjNPblY5cnBhbjd0R1VaeFM5SE9OZDQzUEhUMEVtRVBiSWdCTTRPRE5wMGJ4MzFmMFM3WnQxd3RWcVhGNDFhdGZYZUp0aG1IWVgvUnJqbmZKTUJBNUJKaEQyeUlBVE9EZ3phTms4VytwNkc5VEtneVVLUDR0RmYxdGFvU0JxQ0hBSE5vV0FXQUNCMjk2cFlyL3JzTGZRaEhhSnRjRmtibUwvNjdDdjVUeHpoMEVJb1lBYzJoYmptdHZBSEdWS1A3YkNuL0xSZWkwVFZmcnp4MnZuTVYvVytGZjhuam5DZ0xmZmZZVElVTUE3UkFBcUNKMzhWOTY0ZDlrdGUxenhpNVg4Vjk2NGQ5a2ZieHpCQUVoZ0pvRUFJckxXZng3TFB6ckRnMENPWXAvajRWL1hlNGdJQVJRUzVockFIYWRlNXB5enNoM1dPY3BYZng3S2tUYjNIckQyOC9zRzg5U3hUL0tlT2ZvQmtRSkFhM01vYWxxd3BKMUh3Q21IR3hqZG5vckIrOFM1U3IrVVF2L3VtMUJJSFh4ajFyNDErVUlBaEZDUU8wNU5IVk5XTEp1QThDY2cyemZUdmNnaStrVS96TFdRNERpbjVjUWNKZ2FjMmpPbXJCVVhUNE1hTzdCVmVLcktwR1VLdjVmUFBmVStjakZhQmd1amNGcVhISVhmK045YVF4U0Yyd1BFVXBQVGRqc3FwTmhHSHI2U2JXanZ2R2h0ejI5N1QydVRad0dyLzNVTTlmVkhyZWNQOE9RdHZpZmZlaUZNK3ZGLyt5NXA4N1gvcHl0L0F4RDJ1TC80c1dMdzRzWEwxNzJaOGI3OHAvWFh2UFJwTTgwK082em42aittWEwrbEp4RFM5U0VwZjUwMVFINDY4UXBiZGZycFRxQVUvK1AwSnJiZHR5TC9SQ2JXdjVuZzY5Q1QwczkzdXVGZnhpTTl6Wm56ejExUG1VSVNMMHZXMU5pRGkxWkU1YW9xd0JRMnR3RE9FcnhUN1g2MzdUcVY0eGVjVnZpcjZtdEYvK1dIbW5jcXJQbm5qci8ya1NuQkQ3eTRUZWZGd0x5L3Z2b2puN1N5VVdBT1pQWm1JTnN5dnRIT0doTEZQOFVyOXVMM01YL3REZGMvN2tVYjlHOTd5VTZsNThxVUxRdTlSeGF1eVlzZ1E1QUl0ZCs2cG5yOWgwVVkzNm5KNHAvV1NXSy96QU13N2UrOXI0VWI5TzlWSVU3VlpCb25UbTB2QzQ2QUNYT3l6am94a3U1K2xmODkwdTUrdDlYL0ZmT1B2VENHZnRpbkJRRi9KNTduelBlRTZnSjQrZ0FrSlRpWDFhTjRqOE1sL1p2NytlblUwblJDWWh3UFFEbENRQWtwL2lYVmJyNHI3Z29jTHdVM3c3SS9YaGk0aEVBU0NiWENrWHgzNnlGRldFTDI3QUVxWTVoNDAxS1Z3MG5KOFBpZjBxby9SbVg4RE9rWC8yZmZlTEo4OVUvVjZzL1E3M1YvOHJMcHdKcWo4VUNmbDU3OVIvTzNWV3ZuQXBvNFBNMC9WTkM3YytZNEVjSGdDUnV1L0hYazZ4TXRqM09sOHVsR3UrVU42NWh2eFFoQUZJUkFFaG03dXIvaXZQK1R6eXA5Yi9EM05YL3F2alBEVjIzdmVkMTUxTUZrZ2ptaHE2UGZQak54cHNrdWdnQTE5NzdWMW0vanBINzlaY3V4MlNrK0c5bjhsODJ4M1orYXNJNFhRUUE2a3U1K2pkQjdwZHE5VDhNbDhiN0RkZDlkdGIyNkFKTU0vZFVnQzRBS1hRVEFISWxzbDZTWGk0cEppSG4vY2RMTWQ3Yld0RDJRMW11djhoTFRkaXZtd0JBUFVrZjlXdjF2MWZLNzRPZkh1KzVZNjhMTU0zYzhkWUZZSzZ1QWtEcVpOWlQwc3NoOWVwZjhkOHQ5ZXAvMDNqckFwU2xDNUNYbXJCYlZ3RmdHTkx0b041MmRDN3VCbGRXN3J2QjZRS1VwUXVRbjVxd1hYY0JZQmptNzZnZWQzU0xyUDdMMnJmNmYvbnZkQUdLMGdYSVQwM1lyTXNBTUF5WGR0alVuWGJJdjRuS3FxT3NrdU9kSW93NVBzWXozbVdvQ1ZmcU5nQ3NqTm1CdmUva1hPYTAvNjMrcDV2VC9oKzcrbi81ZDJaMEFad1dtbTVPRjhCRGdxWlJFMTV4WEhzRFNvbXdNMHV4MmlpcnhuaWZmZUxKODk5Nit1N1NieHZXMlNlZVBQKzlDMzlhZXpOQ1VSTUNkQURJdytxL3JKS3IvNWQvZDJZWFFGQ2NabTRYd0hnemxRQUFBQUVKQUZSajlWL1cxUEYyY1ZwWnhwdlNCQUFtbVR2QitJclpOSFBIZSs1WHpPeXZzbndsa0pJRUFDWnpsWGRaUzczSzIzRlMxbEtQRStvUkFLaEMrNytzUThmYmZpckxlRk9TQUVBeDJzbGxwV29uejkxdnprdFBNM2UvR1cvR0NuTWZnTEh1ZnZEdUM5dis3ck8zZi9icWt0dlNHaE5MV2NZYnBqT0hqNmNEOEpLN0g3ejd3cTREWit6djlDN0ZlVjF0enZGU25OZWRPOTV6L3IzckFLYWJNOTZScndNd2gwOG5BQXk3RTJPSzMwZjd2N1RVVjVQYmYyWDVOc0EwNXZERGhBOEFoeDRJRGlBWXorbU1zaUtOdHpuOGNLRUR3TndEd0FFMG5mWi9XY2FibnBuRDV6aytPVG1wdlExVnZQL3MrNVBzK0xzZnZQdkNaMjc3akF0TFJvcDZ2TlhTMG5pM3RDMFI5RDdlNXZENVFuWUFVaDA0dVY2dlJiZmY5STR3TGNVV0dHL1l6aHllUnJnQWtHdEhSemlBWE5GZFZrdFhkRC80K0YvNkprQkJjOGE3cGVNbUIzTjRPcUVDUU80ZEhQRUFHc01WNUdYbHVvTGNmaXpMTndHdVpBNVBLMVFBQU9weFdxTXM0ODArWVFKQXFXUVhMVUZPTWFldHlYVEdtNTZZdzlNTEV3QUFnRmVFQ0FDbEUxMmtCQW1RbXprOGp4QUJBQUM0bkFBQUFBRjFId0JxdFhLaXRKQUFjaktINTlOOUFBQUFyaVFBQUVCQVhRZUEyaTJjMnU4UHNHUzE1OURhNzU5YjF3RUFBTmhNQUFDQWdBUUFBQWhJQUFEMjhtQ1pzb3czSlhRYkFGcTVlS09WN1pqTDgrRExhdkY1OFBaaldibjI0MUswTW5lMnNoMDVkQnNBU00vejRNdnE1WG53anB1eWVqbHV5RThBb0JodHpiS01ON0NMQUFBVU1lZTBCdE1aYi9ZUkFBQWdJQUVBMk1tcGhMS01ONlVJQUl6bW13Qmx0ZlJOQVB1dnJPamZBS0FNQVlCSlhORmQxdEt2NkhhOGxMWDA0NFd5am9lVGs5cmIwRDlqL0xMYmIzckhtUWNmKzZyVlRTRnp4L3YyZDcwelhVSHgvOEZleHJ0Um5ZNmxEZ0RGYUNPWGxhcU5uR0svQ1gzanBkaHZ4cHN4QkFBbU1iR1VaYnlCWEFRQUpwdDdYamRwbXpPQXVlZDFEeDN2dWZ2SitmOXA1bzYzOC85TUpRQlFsTk1BWmMxdEo5dGZaYm42bjVJRUFDQXJwekhLTXQ2TUpRQXdXWW9KeG1tQThXcU10LzFUbHZHbWhtNER3R2R1dmUvcTJ0c3dETzFzUjJwenp1OXFLMDgzNS96dW9XM2xPZnZKK2YvcDVyVC9lenovMzhyYzJjcDI1SERWeVRBTXZmNjBvUFlZNVByNVFvSlZhZTNQc0tTZmt1T2RlalZhZSt4YS96SGUyMzlhVUhzTWN2NTAyd0VndjdsZGdEdTBQU2VaMndXWU10NnBWdjhwZ2tzRXFWYi94cHNwQkFEZ1pVSlpXY2FibWdRQURqWjN0YUVMTU0zYzhSN2JCVWgxalliVjZEaXB2dnBudkptcTZ3QndYK1dMTjJxL2Z3a3U5aW9yNThWZUtjS1k0Mkc4Rk9QZDQ4Vi9wOVdlUTJ1L2YyNWRCd0R5MHdVb0szY1h3RGMweW5Makgyb1NBSmpOcXErc0hLdSsxS3QvN2VqZFVxLytqVGVINkQ0QTFHcmg5TjQ2T2swWG9LelVYWURWZjF2OWw3RWFiNnYvY2N6aCtYUWZBQ2hqYmhkQThabG1iaGRndmZqTUhYK3IvMm5tRm4rcmYxSVFBRWdpeFNTa0N6QmVxdkUyNW1VWmIxb1NJZ0NVYnVWRWFCMXRrcUlMWUlJY0wxVVh3T3EvakZTdC80aXJmM040SGlFQ0FHV2ttSXljQ2hndnhYZzdEMTJHOC82MEtFd0FLSlhvb2lUSGJWSjhJK0Q1Wno2UVlsTkNTUEdOZ0ZlOSt0VUgvMXVyLy9GU0ZQK0lxLzhWYzNoNllRSUFaYVNhbEp3S0dDZGFFVmdpeHpLdENoVUFjaWU3U01seGwxOTYyMzJ6WDhQMUFPTzk1bGYvWVBackhOSUZzUHJmTDJYclAvTHFmOFVjbmxhb0FEQU0rWFp3dEFObm54U25BbHdQTUY3cFV3RnUvclJmcnVJZm5UazhuWEFCWUJqUzcraUlCODQrcVZZb3JnY1lKOVY0SDlJSmlMb2EzU1huUlgvRzJ4eWVTc2dBTUF6cGRualVBMmVNRktjQ2hrRUlHQ3ZGcVlCaDJCOEN0UDUzUzEzOHRmNDNNNGZQZC9RLy8vbXZKN1Uzb3FZUC9NVUhMeHo2YisvN25VK0hQWENtZVA3ckgwenlPci8wMWs4bmVaM2UvZUNibjB6eU9pOWV2SGpGbjYyMy9yL3c2RGtGNlpRN2JyNGhXL0VmQnVPOWlUbjhjR0U3QUN1SEhnRFJENXdwVXAwdlRoVWtlcGZxZlBGNkowRHgzMDN4cjhNY2ZyandBV0FZcGg4SURweHBVazVjejMvOWd5OVB0T1MzN1hTQVl2U0tPMjYrNFV6cTRyL09lTzltRGo5TStGTUE2M2Exa3h3MDg2UmV3VHNsY0tWVklicnRQYTg3UCtjR1A1dXNWcVNLMFN0eUZmN0x6dnNiNzBuTTRlTUpBQlFsQk9SenV2aXYvaXhIQ0ZDUUxpbFIvSWRCQUNBZkFZRGlVb2VBc3crOUVMb29uVDRsc3VuZUNVSkFXcWZIVy9GbnlRUUFxc2h4UVYvRWJzQ21WZjhtcVVQQU1BekRhMzdsOTVPL1p1dHludXRYL0NsTkFLQ2FIQ0VnU2pkZzM2cC9reHdoSUVvM0lPZXFmeGdVZitvUUFLZ3ExMWY3ZWcwQ2h4VCswM0tFZ0dIb053amtMdnpEb1BoVGp3QkFkVG0vMzk5TEVKaGIrRS9MRlFLR29aOGdVS0x3RDRQaVQxMENBRTNJZlpPZnBRYUJsSVgvdEp3aFlCaVdHd1JLRmY1aFVQeXBUd0NnR1NYdTlMZTZtMTNMayszNmpZNXlQUlV4ZHdnWWhtWGNPMkI5dkhNWC9tRlEvR21EQUVCVFN0N3V0NlV3VUtyb3J5c1JBbFphQ2dNMWl2Nks0azhyQkFDYVUrT2UvelhDUUsyaWY5clpoMTQ0VTdMNHJkUUlBeldML29yaVQwc0VBSnBVODhFL214NWVOR2VpM3ZYc2docEZmK1gwNTZ4UkRGYzJQYndvMTNpMzlEa1ZmMm9UQUdqV0hUZmZjS1ptZ1Z3MzU2bUdyWCtPTHp4Njd2d2ROOTlRcFJ1d3paeW5HcmIrT1JSL1dpQUEwTFRXUXNEUzdldHV0QllDbGs3eHAyVkhQeFlBV0lCdlZ6d2wwSXYxNHYvQWprTDB3MjkrTXY4R2RXNjkrTzhhYjZoQkFHQXg3dFFOT01pbVZmK1lZblNuYnNCQk5xMzZGWDlhZEZYdERZQ3hIbmowM1BrNTUrRWpPclQ0cjM1dnpubjRpQlIvbGtRSGdFWFNEZGh0VHVIZlJEZGdONFdmSlJJQVdLdzdSejRLTjVKdEhaSVV4ZWpPakkvQ1hhcHRIUkxGbnlVUUFGZzhRU0J2NFY4bkNDajg5RUVBb0JzUmcwREp3cjh1WWhCUStPbUpBRUIzSWdTQm1vVi9YWVFnb1BEVG82TWYvOGUvQ0FCMDZjNWJic3p5S04xYWRuMEQ0b0ZIbnFqKytVNlBkdzloWU5jM0lGb1liNWhMQUtCN1N3OENyUmYrZFVzUEFnby9VUWdBaEhLNk9BMURtNEZnMzcwT2xsU0Uxc2U3eFVDdzcxNEhTeHB2bUVJQUlLVDF3clJTNjVHOFkzNXZ5WVZvMjNpMzhFamViWlk4M2pDR0FBREQ5Z0sxa2lJWVRMMkxZYzhGYU45NHB3Z0dVKzlpMlBONHd5WUNBR3l3cjBEbEVMa0FHVzhvVHdDQUNWSVVLb1ZuUE9NTitRZ0FBQkNRcHdFQ1FFQUNBQUFFSkFBQVFFQUNBQUFFSkFBQVFFQUNBQUFFSkFBQVFFREh0VGNBMk8vT1cyN2MrenNQUFBKRWdTMEJldUZHUU5Db01VVi9HMkVBMkVjQWdNYk1LZnpyQkFGZ0d3RUFHcEd5OEs4VEJJQjFMZ0tFQnVRcy9pVmVIMWdlQVFBcUsxV2NoUURnTkFFQUtpcGRsSVVBWUVVQWdFcHFGV01oQUJnR0Z3RkNGWWNVNFYwWDhxVitQYUIvQWdBVU5xVllIMUtrYzc4KzBBZDNBcVFyZDk1eVl6ZEY3ZERQOGNBalQyanp2NlMxY2VqbDJLUVB4eWNuR2dEMHBlVmorcTUzM3pUcTkrNS8rUEZabitQK2h4OGY5VjUzM25MamNQL0RqeC84UGt6VDhyRkpQQzRDcEJ1cmdqZTJ5TFlxVlVGVzJOc2FnNWEyQllaQkFJQml4Z1NUMUVWaXpPc3RQVEFCaHhFQW9CRzVWb2hXbnNBbUFnQUFCQ1FBMElYMU5uWnJiZTNXdG1kZDY5czNSd3Nka0JhMkFkWUpBTkNBM0FWQ0FRTFdDUUFBRUpBYkFiRjQyOXJYZDczN0ppdGZobUVZZjErRXFjZExqVzkyUUNvNkFBQUg2UG02Q1dJUUFBQmVvcWdUaVFCQTEwem8xS1Q5VDhzRUFCWk5nV2NzeFJndUp3QkFBM0lIR1VFcExlTkpEd1FBS0tEMTFXZnIyMWVTNGs0VUFnRGRNNkZUZzFCRjZ3UUFGcXUzd3A3cjgvUTJUbk9rS01yR2sxNElBRkJJalVmenVsSE5ZUlI1SWhBQUNHRkpFM3FxYlYzU1orNk5VTVVTQ0FBczBsS0wyOWpDTVBmempmMzNFUXRWeE04TW13Z0EwS2hEUThCU3c5RVNHRnQ2NG1GQVVOallCOU1NdytVRlo5Zks5WkRDWkNXOG00ZEowVHNCZ0RCYW10Q25oSUNWbEt2UFZzYWhSOGFXcFhBS2dNWHBwUTFicTFBb1VJZU5RUy9ISGF3SUFGQlI2V0tzK0UrajZOT3o0K0hrcFBZMndDaDMvY2E3NXIvR1N4UDYvVjk1YlBacnBYTC9WeDVMOHRuR3ZJLy8zdzh3WWN5TU1VdWlBd0FOeUIxSVdnbzhyWmd5SmlVQ0dwVG1Ja0JveEtvZ3BTdzJDait3alFBQWpVa1JCQlQrZE1idUIyUE8wZ2dBMEtqVEJXVk1FVktBZ0NrRUFGZ0F4VDJQVWhkZ1FvdGNCQWdBQVFrQWhHVFZSMG82TkN5UkFBQUFBUjI3WlFWTDhONlJLL2JQdjdRU0cvUDdqbjJHNGRJeE0vYjQyc2F4eEJMcEFCRFczRWtmaHVHVjBBbExJd0RRRFJNeHdIZ0NBTTA3WktVdUREQ0Y0NFdJQkFCQ2N4cUFPUVFIbGt3QW9Bc21Zb0JwQkFDNkpSUUFiQ2NBMERRdGVrb1JHSWxHQUNBOElZTkRDQXdzblFEQTRwbUlBYVlUQUdoV2lwVzVjTUFVamhjaUVRQmdjQnFBYVFRRmVpQUFzR2dtWW9ERENBQjBUMGdBdUpJQVFKTzA1S2xGWUNRS0FRQmVJblF3aG9CQUx3UUFGc3RFREhDNDQrSGtwUFkyd0dFbUhMdWYvL0tqdzN0LzgrYWtyMGxRamhFNmNmVGYvL2JQam1hYU1xcFFaL1Q1THo5YTlmMXB3NmJqMExGQlQ1d0NBSUNBQkFBQUNFZ0FvQ20xMi8rdGJBUDFyYmY3dGYvcGpRQUFBQUVKQUFBUWtBQUFBQUVKQURTanBYUHZMVzBMOWF6Tyt6di9UNDhFQUFBSXlJMkFBQ0FnSFFBQUNFZ0FBSUNBQkFBQUNFZ0FBSUNBQkFBQUNFZ0FBSUNBam4wSEVBRGkwUUVBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUlTQUFBZ0lBRUFBQUk2SGc0Y1NzZ0FJaEdCd0FBQWhJQUFDQ2c0OW9iUUYzZitadEhIcXk5RFVBOXIvKzFXMjZ2dlEzVW9RTUFBQUVKQUFBUWtBQUFBQUVkL2RjUC84bjNBQUVnR0IwQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBam8rT1RrcFBZMkFBQ0Y2UUFBUUVBQ0FBQUVkRng3QXlDQ1p6OSswOVA3ZnVlYWp6OStYWlR0QU9vNyt0RVAvdEZGQUpESm1JSzdMa2NCYm1VN2dIWUlBSkRCSVFWM1hZb0MzTXAyQU8wUkFDQ2hGQVYzM1NFRnVKWHRBTnJsSWtCSUpFZlJQZVIxVzlrT29HMENBQ1NRdXppT2ZmMVd0Z05vbndBQU01VXFpdnZlcDVYdEFKWkJBSUFaU2hmRGJlL1h5bllBeXlFQUFFQkFBZ0FjcU5ZcWVQMTlXOWtPWUZrRUFBQUlTQUNBQTlSZS9hN2V2NVh0QUpaSEFBQ0FnTndKRUNheTZyMlN1d1RDOHVnQUFFQkFBZ0FBQkNRQUFFQkFBZ0FBQkNRQUFFQkFBZ0FBQkNRQUFFQkFBZ0FBQkNRQXdFUnVlbk01NHdITGREeWN1QkVnTUlNNUJCWkpCd0FPY00zSEhyUHFIWXdETEprQUFBQUJDUUJ3b09pcjMraWZINVpPQUFDQWdBUUFtQ0hxS2pqcTU0YWVDQUF3VTdSaUdPM3pRcThFQUVnZ1NsR004amtoZ3FPTDMvK09ML0ZDSWhmKytGMVAxOTZHWEs1Vy9LRXJBZ0JrMEZzUVVQeWhQMDRCUUFaWGYreXg2eFJOb0dVNkFGREFtSTdBZW1Cb3BZc2d5RUNmQkFCb1dBc2hRQUNBUGdrQXNBQzFnb0RpRC8xeURRQXNnRUlNcEtZREFBdFRxaHNnZEVEZmRBQmdZUlJtSUFVZEFGaXdYTjBBSVFQNnB3TUFDNlpRQTRmU0FZQk9wT29HQ0JVUWd3NEFkRUxoQnFiUUFZQU9IZG9ORUNJZ0RoMEE2SkJDRHV5akF3Q2RHOXNORUJvZ0ZoMEE2SnpDRG14eWRQRjcvNkFEQUVGYytKT2JOM1lEcnY2alI0VUVDRVlIQUFKUjZJRVZIUUFJYXRVTkVBb2dKaDBBQ0VyaGg5aDBBQUFnSUIwQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0FRQUFBaElBQUNBZ0k0OUNRZ0E0dEVCQUlDQUJBQUFDRWdBQUlDQUJBQUFDRWdBQUlDQUJBQUFDRWdBQUlDQUJBQUFDT2g0T0hFcklBQ0lSZ2NBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdJQUVBQUFJU0FBQWdvUDhIdVJyQWM5NjMrdXdBQUFBQVNVVk9SSzVDWUlJPSIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIiwgInB1cnBvc2UiOiAibWFza2FibGUgYW55In1dfQ==">
+  <link rel="apple-touch-icon" href="data:image/png;base64,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">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Google APIs -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #faf6f0; --parchment: #f0e8d8; --terra: #b5622a;
+      --sage: #7a8c6e; --bark: #5c3d2e; --dust: #c4a882; --ink: #2a1f14; --white: #fffdf9;
+      --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    html, body { height: 100%; }
+    body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+
+    .app-shell { display: flex; flex-direction: column; height: 100dvh; max-width: 430px; margin: 0 auto; }
+
+    /* HEADER */
+    .app-header { background: var(--white); border-bottom: 1px solid var(--parchment); padding: calc(var(--safe-top) + 16px) 20px 16px; text-align: center; flex-shrink: 0; }
+    .app-header-ornament { font-size: 10px; letter-spacing: 0.25em; color: var(--dust); text-transform: uppercase; display: block; margin-bottom: 4px; }
+    .app-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; font-style: italic; color: var(--bark); line-height: 1; }
+
+    /* AUTH BAR */
+    .auth-bar { background: var(--parchment); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--bark); flex-shrink: 0; }
+    .auth-bar .user { display: flex; align-items: center; gap: 8px; }
+    .auth-bar img { width: 24px; height: 24px; border-radius: 50%; }
+    .btn-signout { background: none; border: 1px solid var(--dust); border-radius: 2px; padding: 4px 10px; font-size: 11px; color: var(--bark); cursor: pointer; font-family: 'Jost', sans-serif; }
+    .btn-signin { background: var(--terra); border: none; border-radius: 2px; padding: 6px 14px; font-size: 11px; color: white; cursor: pointer; font-family: 'Jost', sans-serif; letter-spacing: 0.1em; }
+
+    /* CONTENT */
+    .app-content { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 16px; }
+
+    /* BOTTOM NAV */
+    .bottom-nav { display: flex; background: var(--white); border-top: 1px solid var(--parchment); padding-bottom: var(--safe-bottom); flex-shrink: 0; }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 4px; background: none; border: none; cursor: pointer; color: var(--dust); transition: color 0.2s; font-family: 'Jost', sans-serif; }
+    .nav-item.active { color: var(--terra); }
+    .nav-icon { font-size: 22px; line-height: 1; }
+    .nav-label { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+
+    /* STATS */
+    .stats-bar { display: flex; justify-content: space-around; background: var(--parchment); padding: 14px 20px; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--terra); line-height: 1; text-align: center; }
+    .stat-lbl { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-top: 2px; text-align: center; }
+
+    /* SECTION HEADER */
+    .section-header { padding: 20px 20px 12px; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sage); display: flex; align-items: center; gap: 12px; }
+    .section-header::after { content: ''; flex: 1; height: 1px; background: var(--parchment); }
+
+    /* GALLERY */
+    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .photo-cell { aspect-ratio: 1; overflow: hidden; cursor: pointer; position: relative; background: var(--parchment); }
+    .photo-cell img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .photo-cell:active img { transform: scale(0.96); }
+    .photo-cell-name { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(42,31,20,0.7)); color: white; font-size: 9px; padding: 8px 4px 4px; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+    /* UPLOAD */
+    .upload-section { padding: 16px; }
+    .field-label { display: block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 6px; }
+    .elegant-input { width: 100%; padding: 13px 16px; border: 1px solid var(--dust); border-radius: 3px; background: var(--white); font-family: 'Jost', sans-serif; font-size: 15px; color: var(--ink); outline: none; -webkit-appearance: none; transition: border-color 0.2s; margin-bottom: 14px; }
+    .elegant-input:focus { border-color: var(--terra); }
+    .drop-zone { border: 1.5px dashed var(--dust); border-radius: 8px; padding: 48px 20px; text-align: center; background: var(--white); cursor: pointer; transition: all 0.25s; margin-bottom: 16px; }
+    .drop-zone.drag-over { border-color: var(--terra); border-style: solid; background: var(--parchment); }
+    .drop-icon { font-size: 40px; margin-bottom: 12px; }
+    .drop-zone h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--bark); margin-bottom: 6px; }
+    .drop-zone p { color: var(--dust); font-size: 12px; }
+    .preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 16px; }
+    .preview-cell { aspect-ratio: 1; border-radius: 4px; overflow: hidden; }
+    .preview-cell img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* BUTTONS */
+    .btn-primary { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 16px; background: var(--terra); color: white; border: none; border-radius: 3px; font-family: 'Jost', sans-serif; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; -webkit-appearance: none; margin-bottom: 10px; }
+    .btn-primary:disabled { opacity: 0.5; }
+    .btn-primary:active:not(:disabled) { background: var(--bark); }
+    .btn-secondary { display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px; background: transparent; color: var(--bark); border: 1px solid var(--dust); border-radius: 3px; font-family: 'Jost', sans-serif; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; -webkit-appearance: none; }
+
+    /* PROGRESS */
+    .progress-bar { height: 3px; background: var(--parchment); border-radius: 2px; margin-bottom: 16px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--sage), var(--terra)); transition: width 0.3s; }
+    .progress-label { font-size: 12px; color: var(--sage); text-align: center; margin-bottom: 12px; }
+
+    /* GUESTBOOK */
+    .guestbook-section { padding: 0 16px; }
+    .gb-form { background: var(--white); border-radius: 8px; border: 1px solid var(--parchment); padding: 20px; margin-bottom: 20px; }
+    .gb-form h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; font-style: italic; color: var(--bark); margin-bottom: 16px; }
+    .elegant-textarea { width: 100%; padding: 13px 16px; border: 1px solid var(--dust); border-radius: 3px; background: var(--white); font-family: 'Jost', sans-serif; font-size: 14px; color: var(--ink); outline: none; resize: none; min-height: 100px; line-height: 1.6; -webkit-appearance: none; transition: border-color 0.2s; margin-bottom: 12px; }
+    .elegant-textarea:focus { border-color: var(--terra); }
+    .msg-card { background: var(--white); border-radius: 8px; border: 1px solid var(--parchment); padding: 20px; margin-bottom: 12px; position: relative; overflow: hidden; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .msg-quote { font-family: 'Cormorant Garamond', serif; font-size: 60px; color: var(--parchment); position: absolute; top: 0; left: 12px; line-height: 1; }
+    .msg-text { font-size: 14px; line-height: 1.65; color: var(--ink); padding-top: 8px; margin-bottom: 12px; position: relative; }
+    .msg-author { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; color: var(--terra); }
+    .msg-date { font-size: 11px; color: var(--dust); margin-top: 2px; }
+
+    /* SHARE */
+    .share-section { padding: 16px; }
+    .share-card { background: var(--white); border: 1px solid var(--parchment); border-radius: 8px; padding: 28px 20px; text-align: center; margin-bottom: 16px; }
+    .share-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; font-style: italic; color: var(--bark); margin-bottom: 8px; }
+    .share-card p { color: var(--dust); font-size: 12px; line-height: 1.6; margin-bottom: 20px; }
+    .drive-link { display: flex; align-items: center; gap: 10px; background: var(--parchment); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; text-decoration: none; color: var(--bark); }
+    .drive-link-icon { font-size: 24px; }
+    .drive-link-text { text-align: left; }
+    .drive-link-title { font-size: 13px; font-weight: 500; }
+    .drive-link-sub { font-size: 11px; color: var(--dust); margin-top: 2px; }
+    .install-card { background: linear-gradient(135deg, var(--bark), #3d2a1e); border-radius: 8px; padding: 20px; color: white; text-align: center; }
+    .install-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; margin-bottom: 8px; }
+    .install-card p { font-size: 12px; opacity: 0.7; line-height: 1.6; }
+
+    /* EMPTY */
+    .empty { padding: 60px 24px; text-align: center; }
+    .empty h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; font-style: italic; color: var(--bark); opacity: 0.5; margin-bottom: 8px; }
+    .empty p { color: var(--dust); font-size: 12px; }
+
+    /* LIGHTBOX */
+    .lightbox { position: fixed; inset: 0; background: rgba(20,12,8,0.96); z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.2s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .lightbox img { max-width: 100%; max-height: 75vh; object-fit: contain; border-radius: 4px; }
+    .lightbox-meta { margin-top: 20px; text-align: center; color: var(--cream); }
+    .lightbox-meta .name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; }
+    .lightbox-meta .date { font-size: 12px; opacity: 0.5; margin-top: 4px; }
+    .lightbox-close { position: absolute; top: calc(var(--safe-top) + 16px); right: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 18px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    /* SPINNER */
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: calc(var(--safe-bottom) + 80px); left: 50%; transform: translateX(-50%) translateY(16px); background: var(--bark); color: var(--cream); padding: 12px 24px; border-radius: 24px; font-size: 13px; z-index: 9999; opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap; max-width: 90vw; text-align: center; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* SIGN IN SCREEN */
+    .signin-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 32px; text-align: center; gap: 24px; }
+    .signin-screen .icon { font-size: 64px; }
+    .signin-screen h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; font-style: italic; color: var(--bark); }
+    .signin-screen p { color: var(--dust); font-size: 13px; line-height: 1.6; }
+    .signin-screen .google-btn { display: flex; align-items: center; gap: 12px; padding: 14px 28px; background: white; border: 1px solid var(--dust); border-radius: 3px; cursor: pointer; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: box-shadow 0.2s; }
+    .signin-screen .google-btn:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+
+    input[type="file"] { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="app-shell" id="app">
+  <header class="app-header">
+    <span class="app-header-ornament">Tenuta Casteani · Toskana</span>
+    <h1>Andreas &amp; Vanessa</h1>
+  </header>
+
+  <div class="auth-bar" id="authBar" style="display:none"></div>
+
+  <div class="app-content" id="content">
+    <div class="signin-screen">
+      <div class="icon">💍</div>
+      <h2>Willkommen zur Hochzeit</h2>
+      <p>Bitte melde dich mit Google an, um Fotos hochzuladen und Nachrichten zu hinterlassen.</p>
+      <button class="google-btn" onclick="signIn()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
+        Mit Google anmelden
+      </button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav" style="display:none">
+    <button class="nav-item active" id="nav-gallery" onclick="showTab('gallery')">
+      <span class="nav-icon">🌿</span>
+      <span class="nav-label">Galerie</span>
+    </button>
+    <button class="nav-item" id="nav-upload" onclick="showTab('upload')">
+      <span class="nav-icon">📸</span>
+      <span class="nav-label">Hochladen</span>
+    </button>
+    <button class="nav-item" id="nav-guestbook" onclick="showTab('guestbook')">
+      <span class="nav-icon">💌</span>
+      <span class="nav-label">Gästebuch</span>
+    </button>
+    <button class="nav-item" id="nav-share" onclick="showTab('share')">
+      <span class="nav-icon">📱</span>
+      <span class="nav-label">Teilen</span>
+    </button>
+  </nav>
+</div>
+
+<div class="lightbox" id="lightbox" style="display:none">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lightbox-meta">
+    <div class="name" id="lb-name"></div>
+    <div class="date" id="lb-date"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept="image/*" multiple onchange="handleFileInput(this.files)">
+
+<script>
+const CLIENT_ID = '631002953961-tdjffk7hs0q5lnb3o7b8pu62tjkomicc.apps.googleusercontent.com';
+const FOLDER_ID = '1o44R3t9h-pzhGrK2G2cHXjHpacDBk-JA';
+const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
+let tokenClient;
+let accessToken = null;
+let currentUser = null;
+let photos = [];
+let messages = [];
+let pendingFiles = [];
+let pendingPreviews = [];
+let currentTab = 'gallery';
+let uploaderName = '';
+let guestName = '';
+let guestMsg = '';
+let uploading = false;
+let uploadProgress = 0;
+let uploadStep = '';
+
+// ── Auth ───────────────────────────────────────────────────────────────────
+function initGoogle() {
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: SCOPES,
+    callback: async (resp) => {
+      if (resp.error) { showToast('Anmeldung fehlgeschlagen 😕'); return; }
+      accessToken = resp.access_token;
+      // Get user info
+      try {
+        const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: 'Bearer ' + accessToken }
+        });
+        currentUser = await r.json();
+        uploaderName = currentUser.name || '';
+      } catch {}
+      onSignedIn();
+    }
+  });
+}
+
+function signIn() {
+  if (!tokenClient) { showToast('Google noch nicht geladen, kurz warten…'); setTimeout(signIn, 1000); return; }
+  tokenClient.requestAccessToken({ prompt: 'consent' });
+}
+
+function signOut() {
+  if (accessToken) google.accounts.oauth2.revoke(accessToken);
+  accessToken = null; currentUser = null;
+  document.getElementById('authBar').style.display = 'none';
+  document.getElementById('bottomNav').style.display = 'none';
+  document.getElementById('content').innerHTML = renderSignIn();
+}
+
+function onSignedIn() {
+  renderAuthBar();
+  document.getElementById('authBar').style.display = 'flex';
+  document.getElementById('bottomNav').style.display = 'flex';
+  loadData();
+  showTab('gallery');
+}
+
+function renderSignIn() {
+  return `<div class="signin-screen">
+    <div class="icon">💍</div>
+    <h2>Willkommen zur Hochzeit</h2>
+    <p>Bitte melde dich mit Google an, um Fotos hochzuladen und Nachrichten zu hinterlassen.</p>
+    <button class="google-btn" onclick="signIn()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
+      Mit Google anmelden
+    </button>
+  </div>`;
+}
+
+function renderAuthBar() {
+  const bar = document.getElementById('authBar');
+  const pic = currentUser?.picture ? `<img src="${currentUser.picture}" alt="">` : '👤';
+  bar.innerHTML = `
+    <div class="user">${pic}<span>${esc(currentUser?.name || 'Gast')}</span></div>
+    <button class="btn-signout" onclick="signOut()">Abmelden</button>
+  `;
+}
+
+// ── Storage (local + Drive) ────────────────────────────────────────────────
+async function loadData() {
+  try {
+    const r = await window.storage.get('wedding_photos_meta');
+    photos = r ? JSON.parse(r.value) : [];
+  } catch { photos = []; }
+  try {
+    const r = await window.storage.get('wedding_messages');
+    messages = r ? JSON.parse(r.value) : [];
+  } catch { messages = []; }
+  render();
+}
+
+async function saveMeta() {
+  // Save photo metadata (without image data – that's in Drive)
+  const meta = photos.map(p => ({ id: p.id, name: p.name, uploaderName: p.uploaderName, date: p.date, driveId: p.driveId, thumb: p.thumb }));
+  try { await window.storage.set('wedding_photos_meta', JSON.stringify(meta)); } catch {}
+}
+
+async function saveMessages() {
+  try { await window.storage.set('wedding_messages', JSON.stringify(messages)); } catch {}
+}
+
+// ── Google Drive Upload ────────────────────────────────────────────────────
+async function uploadToDrive(file, name) {
+  // 1. Create file metadata
+  const meta = { name, parents: [FOLDER_ID] };
+  const form = new FormData();
+  form.append('metadata', new Blob([JSON.stringify(meta)], { type: 'application/json' }));
+  form.append('file', file);
+
+  const r = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webContentLink,thumbnailLink', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + accessToken },
+    body: form
+  });
+
+  if (!r.ok) throw new Error('Drive upload failed: ' + r.status);
+  return await r.json();
+}
+
+async function makeDriveFilePublic(fileId) {
+  await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}/permissions`, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ role: 'reader', type: 'anyone' })
+  });
+}
+
+async function getDriveThumb(fileId) {
+  // Use Drive thumbnail URL
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
+}
+
+// ── Upload Flow ────────────────────────────────────────────────────────────
+function handleDrop(e) { e.preventDefault(); handleFiles(e.dataTransfer.files); }
+function handleFileInput(files) { handleFiles(files); }
+
+function handleFiles(files) {
+  const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
+  if (!arr.length) return;
+  pendingFiles = arr;
+  pendingPreviews = arr.map(f => URL.createObjectURL(f));
+  currentTab = 'upload';
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-upload').classList.add('active');
+  render();
+}
+
+function cancelUpload() {
+  pendingPreviews.forEach(u => URL.revokeObjectURL(u));
+  pendingFiles = []; pendingPreviews = [];
+  render();
+}
+
+async function uploadPhotos() {
+  if (!uploaderName.trim()) { showToast('Bitte deinen Namen eingeben 🌿'); return; }
+  if (!accessToken) { showToast('Bitte zuerst anmelden'); return; }
+  uploading = true; uploadProgress = 0; uploadStep = 'Vorbereitung…'; render();
+
+  const newPhotos = [];
+  for (let i = 0; i < pendingFiles.length; i++) {
+    const file = pendingFiles[i];
+    uploadStep = `Foto ${i+1} von ${pendingFiles.length} wird hochgeladen…`;
+    uploadProgress = Math.round((i / pendingFiles.length) * 100);
+    updateProgress();
+
+    try {
+      // Upload to Drive
+      const fname = `${uploaderName.trim()}_${Date.now()}_${file.name}`;
+      const driveFile = await uploadToDrive(file, fname);
+      await makeDriveFilePublic(driveFile.id);
+      const thumb = await getDriveThumb(driveFile.id);
+
+      // Create local thumb for gallery display
+      const localThumb = await compressImage(file, 400, 0.7);
+
+      newPhotos.push({
+        id: driveFile.id,
+        name: fname,
+        driveId: driveFile.id,
+        thumb: localThumb,
+        uploaderName: uploaderName.trim(),
+        date: new Date().toLocaleDateString('de-AT', {day:'2-digit',month:'long',year:'numeric'}),
+        timestamp: Date.now()
+      });
+    } catch(e) {
+      showToast(`Fehler bei Foto ${i+1}: ${e.message}`);
+    }
+  }
+
+  photos = [...newPhotos, ...photos];
+  await saveMeta();
+
+  pendingPreviews.forEach(u => URL.revokeObjectURL(u));
+  pendingFiles = []; pendingPreviews = [];
+  uploading = false;
+  showToast(`${newPhotos.length} Foto${newPhotos.length>1?'s':''} in Google Drive gespeichert ✨`);
+  showTab('gallery');
+}
+
+function updateProgress() {
+  const pbar = document.getElementById('pbar');
+  const plbl = document.getElementById('plbl');
+  if (pbar) pbar.style.width = uploadProgress + '%';
+  if (plbl) plbl.textContent = uploadStep;
+}
+
+async function compressImage(file, maxDim=1200, quality=0.78) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let {width: w, height: h} = img;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+        else { w = Math.round(w * maxDim / h); h = maxDim; }
+      }
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', quality));
+    };
+    img.src = url;
+  });
+}
+
+// ── Guestbook ──────────────────────────────────────────────────────────────
+async function sendMessage() {
+  if (!guestName.trim() || !guestMsg.trim()) { showToast('Bitte Name und Nachricht ausfüllen'); return; }
+  const entry = {
+    id: Date.now(),
+    name: guestName.trim(),
+    text: guestMsg.trim(),
+    date: new Date().toLocaleDateString('de-AT', {day:'2-digit',month:'long',year:'numeric'})
+  };
+  messages = [entry, ...messages];
+  await saveMessages();
+  guestName = ''; guestMsg = '';
+  showToast('Nachricht gespeichert 💌');
+  render();
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('nav-' + tab);
+  if (btn) btn.classList.add('active');
+  render();
+}
+
+function render() {
+  if (!accessToken) return;
+  const content = document.getElementById('content');
+  if (currentTab === 'gallery') content.innerHTML = renderGallery();
+  else if (currentTab === 'upload') content.innerHTML = renderUpload();
+  else if (currentTab === 'guestbook') content.innerHTML = renderGuestbook();
+  else if (currentTab === 'share') content.innerHTML = renderShare();
+}
+
+function renderStats() {
+  const guests = new Set([...photos.map(p => p.uploaderName), ...messages.map(m => m.name)]).size;
+  return `<div class="stats-bar">
+    <div><div class="stat-num">${photos.length}</div><div class="stat-lbl">Fotos</div></div>
+    <div><div class="stat-num">${messages.length}</div><div class="stat-lbl">Nachrichten</div></div>
+    <div><div class="stat-num">${guests}</div><div class="stat-lbl">Gäste</div></div>
+  </div>`;
+}
+
+function renderGallery() {
+  let html = renderStats() + '<div class="section-header">Erinnerungen</div>';
+  if (photos.length === 0) {
+    html += `<div class="empty"><h3>Noch keine Fotos</h3><p>Ladet eure schönsten Momente hoch!</p><br>
+      <button class="btn-primary" style="max-width:200px;margin:16px auto 0" onclick="showTab('upload')">Erstes Foto 📸</button></div>`;
+  } else {
+    html += '<div class="photo-grid">';
+    photos.forEach((p, i) => {
+      html += `<div class="photo-cell" onclick="openLightbox(${i})">
+        <img src="${p.thumb}" loading="lazy">
+        <div class="photo-cell-name">${esc(p.uploaderName)}</div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+  return html;
+}
+
+function renderUpload() {
+  if (pendingFiles.length > 0) return renderUploadConfirm();
+  return `<div class="upload-section">
+    <label class="field-label">Dein Name</label>
+    <input class="elegant-input" type="text" placeholder="z.B. Maria &amp; Thomas"
+      value="${esc(uploaderName)}" oninput="uploaderName=this.value">
+    <div class="drop-zone" ondragover="this.classList.add('drag-over');event.preventDefault()"
+      ondragleave="this.classList.remove('drag-over')" ondrop="this.classList.remove('drag-over');handleDrop(event)"
+      onclick="document.getElementById('fileInput').click()">
+      <div class="drop-icon">🌸</div>
+      <h3>Fotos hinzufügen</h3>
+      <p>Antippen oder hierher ziehen</p>
+      <p style="margin-top:6px;opacity:0.6;font-size:11px">Fotos werden in Google Drive gespeichert ☁️</p>
+    </div>
+  </div>`;
+}
+
+function renderUploadConfirm() {
+  const previews = pendingPreviews.map(src => `<div class="preview-cell"><img src="${src}"></div>`).join('');
+  const prog = uploading ? `
+    <div class="progress-label" id="plbl">${uploadStep}</div>
+    <div class="progress-bar"><div class="progress-fill" id="pbar" style="width:${uploadProgress}%"></div></div>` : '';
+  return `<div class="upload-section">
+    <label class="field-label">Dein Name</label>
+    <input class="elegant-input" type="text" placeholder="z.B. Maria &amp; Thomas"
+      value="${esc(uploaderName)}" oninput="uploaderName=this.value">
+    <div class="section-header">${pendingFiles.length} Foto${pendingFiles.length>1?'s':''} bereit</div>
+    <div class="preview-grid">${previews}</div>
+    ${prog}
+    <button class="btn-primary" onclick="uploadPhotos()" ${uploading?'disabled':''}>
+      ${uploading?'<span class="spinner"></span> Wird in Google Drive hochgeladen…':'Fotos hochladen ☁️'}
+    </button>
+    <button class="btn-secondary" onclick="cancelUpload()" ${uploading?'disabled':''}>Abbrechen</button>
+  </div>`;
+}
+
+function renderGuestbook() {
+  let html = `<div class="guestbook-section">
+    <div class="gb-form">
+      <h3>Nachricht hinterlassen</h3>
+      <label class="field-label">Dein Name</label>
+      <input class="elegant-input" type="text" placeholder="z.B. Familie Müller"
+        value="${esc(guestName)}" oninput="guestName=this.value">
+      <textarea class="elegant-textarea" placeholder="Eure schönsten Wünsche…" oninput="guestMsg=this.value">${esc(guestMsg)}</textarea>
+      <button class="btn-primary" onclick="sendMessage()">Nachricht senden 💌</button>
+    </div>
+    <div class="section-header">${messages.length} Nachrichten</div>`;
+  if (messages.length === 0) {
+    html += `<div class="empty"><h3>Noch keine Nachrichten</h3><p>Seid die Ersten!</p></div>`;
+  } else {
+    messages.forEach(m => {
+      html += `<div class="msg-card">
+        <div class="msg-quote">"</div>
+        <div class="msg-text">${esc(m.text)}</div>
+        <div class="msg-author">${esc(m.name)}</div>
+        <div class="msg-date">${m.date}</div>
+      </div>`;
+    });
+  }
+  return html + '</div>';
+}
+
+function renderShare() {
+  const driveUrl = `https://drive.google.com/drive/folders/${FOLDER_ID}`;
+  return `<div class="share-section">
+    <div class="share-card">
+      <h3>Google Drive Album</h3>
+      <p>Alle hochgeladenen Fotos findet ihr direkt in eurem Google Drive Ordner.</p>
+      <a href="${driveUrl}" target="_blank" class="drive-link">
+        <span class="drive-link-icon">📁</span>
+        <div class="drive-link-text">
+          <div class="drive-link-title">Hochzeit Fotos 2026</div>
+          <div class="drive-link-sub">Google Drive öffnen</div>
+        </div>
+        <span style="margin-left:auto;color:var(--dust)">→</span>
+      </a>
+      <button class="btn-primary" onclick="copyLink()">App-Link kopieren 🌿</button>
+    </div>
+    <div class="install-card">
+      <h3>Als App installieren</h3>
+      <p>iOS: Teilen → "Zum Home-Bildschirm"<br>Android: Menü → "App installieren"</p>
+    </div>
+  </div>`;
+}
+
+// ── Lightbox ───────────────────────────────────────────────────────────────
+function openLightbox(i) {
+  const p = photos[i];
+  document.getElementById('lb-img').src = p.thumb;
+  document.getElementById('lb-name').textContent = p.uploaderName;
+  document.getElementById('lb-date').textContent = p.date;
+  document.getElementById('lightbox').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ── Utils ──────────────────────────────────────────────────────────────────
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => showToast('Link kopiert! 🌿'));
+}
+
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function esc(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+// ── Init ───────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  // Wait for Google to load
+  const check = setInterval(() => {
+    if (window.google?.accounts?.oauth2) {
+      clearInterval(check);
+      initGoogle();
+    }
+  }, 100);
+});
+</script>
+</body>
+</html>
