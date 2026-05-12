@@ -13,7 +13,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <!-- Google APIs -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -164,11 +163,10 @@
     <div class="signin-screen">
       <div class="icon">💍</div>
       <h2>Willkommen zur Hochzeit</h2>
-      <p>Bitte melde dich mit Google an, um Fotos hochzuladen und Nachrichten zu hinterlassen.</p>
-      <button class="google-btn" onclick="signIn()">
-        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
-        Mit Google anmelden
-      </button>
+      <p>Vanessa &amp; Andreas · 25. Juni 2026 · Toskana</p>
+      <input class="elegant-input" type="text" id="loginName" placeholder="Dein Name (z.B. Maria &amp; Thomas)" style="margin-bottom:12px;text-align:center">
+      <input class="elegant-input" type="text" id="loginCode" placeholder="Einladungscode" inputmode="numeric" maxlength="4" style="text-align:center;letter-spacing:0.4em;font-size:1.5em;margin-bottom:16px" onkeydown="if(event.key==='Enter')verifyCode()">
+      <button class="btn-primary" onclick="verifyCode()">Weiter →</button>
     </div>
   </div>
 
@@ -205,14 +203,9 @@
 <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFileInput(this.files)">
 
 <script>
-const CLIENT_ID = '631002953961-tdjffk7hs0q5lnb3o7b8pu62tjkomicc.apps.googleusercontent.com';
-const FOLDER_ID = '1o44R3t9h-pzhGrK2G2cHXjHpacDBk-JA';
-const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+const NAS_API_URL = 'https://landowner-travel-customs.ngrok-free.dev';
 
-let tokenClient;
-let accessToken = null;
-let tokenExpiry = 0;
-let currentUser = null;
+let isLoggedIn = false;
 let photos = [];
 let messages = [];
 let pendingFiles = [];
@@ -226,34 +219,36 @@ let uploadProgress = 0;
 let uploadStep = '';
 
 // ── Auth ───────────────────────────────────────────────────────────────────
-function initGoogle() {
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPES,
-    callback: async (resp) => {
-      if (resp.error) { showToast('Anmeldung fehlgeschlagen 😕'); return; }
-      accessToken = resp.access_token;
-      // Get user info
-      try {
-        const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: 'Bearer ' + accessToken }
-        });
-        currentUser = await r.json();
-        uploaderName = currentUser.name || '';
-      } catch {}
-      onSignedIn();
-    }
-  });
-}
+async function verifyCode() {
+  const nameEl = document.getElementById('loginName');
+  const codeEl = document.getElementById('loginCode');
+  const name = nameEl?.value?.trim() || '';
+  const code = codeEl?.value?.trim() || '';
+  if (!name) { showToast('Bitte deinen Namen eingeben 🌿'); nameEl?.focus(); return; }
+  if (!code) { showToast('Bitte den Einladungscode eingeben'); codeEl?.focus(); return; }
 
-function signIn() {
-  if (!tokenClient) { showToast('Google noch nicht geladen, kurz warten…'); setTimeout(signIn, 1000); return; }
-  tokenClient.requestAccessToken({ prompt: '' });
+  const btn = document.querySelector('.signin-screen .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Verbinde…'; }
+
+  try {
+    const r = await fetch(`${NAS_API_URL}/api/health`);
+    if (!r.ok) throw new Error('Server nicht erreichbar');
+    const data = await r.json();
+    if (data.status !== 'ok') throw new Error('Server Fehler');
+  } catch {
+    showToast('Verbindung zum Server fehlgeschlagen 😕');
+    if (btn) { btn.disabled = false; btn.textContent = 'Weiter →'; }
+    return;
+  }
+
+  uploaderName = name;
+  saveSession(code, name);
+  onSignedIn();
 }
 
 function signOut() {
-  if (accessToken) google.accounts.oauth2.revoke(accessToken);
-  accessToken = null; currentUser = null;
+  isLoggedIn = false;
+  uploaderName = '';
   clearSession();
   document.getElementById('authBar').style.display = 'none';
   document.getElementById('bottomNav').style.display = 'none';
@@ -261,6 +256,7 @@ function signOut() {
 }
 
 function onSignedIn() {
+  isLoggedIn = true;
   renderAuthBar();
   document.getElementById('authBar').style.display = 'flex';
   document.getElementById('bottomNav').style.display = 'flex';
@@ -272,75 +268,56 @@ function renderSignIn() {
   return `<div class="signin-screen">
     <div class="icon">💍</div>
     <h2>Willkommen zur Hochzeit</h2>
-    <p>Bitte melde dich mit Google an, um Fotos hochzuladen und Nachrichten zu hinterlassen.</p>
-    <button class="google-btn" onclick="signIn()">
-      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
-      Mit Google anmelden
-    </button>
+    <p>Vanessa &amp; Andreas · 25. Juni 2026 · Toskana</p>
+    <input class="elegant-input" type="text" id="loginName" placeholder="Dein Name (z.B. Maria &amp; Thomas)" style="margin-bottom:12px;text-align:center" value="${esc(uploaderName)}">
+    <input class="elegant-input" type="text" id="loginCode" placeholder="Einladungscode" inputmode="numeric" maxlength="4" style="text-align:center;letter-spacing:0.4em;font-size:1.5em;margin-bottom:16px" onkeydown="if(event.key==='Enter')verifyCode()">
+    <button class="btn-primary" onclick="verifyCode()">Weiter →</button>
   </div>`;
 }
 
 function renderAuthBar() {
   const bar = document.getElementById('authBar');
-  const pic = currentUser?.picture ? `<img src="${currentUser.picture}" alt="">` : '👤';
   bar.innerHTML = `
-    <div class="user">${pic}<span>${esc(currentUser?.name || 'Gast')}</span></div>
+    <div class="user">👤<span>${esc(uploaderName || 'Gast')}</span></div>
     <button class="btn-signout" onclick="signOut()">Abmelden</button>
   `;
 }
 
-// ── Storage (local + Drive) ────────────────────────────────────────────────
+// ── Storage (NAS API) ──────────────────────────────────────────────────────
 async function loadData() {
   try {
-    const r = await window.storage.get('wedding_photos_meta');
-    photos = r ? JSON.parse(r.value) : [];
+    const r = await fetch(`${NAS_API_URL}/api/photos`);
+    const list = r.ok ? await r.json() : [];
+    photos = list.map(p => ({
+      ...p,
+      thumbUrl: p.thumbUrl ? NAS_API_URL + p.thumbUrl : null,
+      photoUrl: p.photoUrl ? NAS_API_URL + p.photoUrl : null
+    }));
   } catch { photos = []; }
   try {
-    const r = await window.storage.get('wedding_messages');
-    messages = r ? JSON.parse(r.value) : [];
+    const r = await fetch(`${NAS_API_URL}/api/messages`);
+    messages = r.ok ? await r.json() : [];
   } catch { messages = []; }
   render();
 }
 
-async function saveMeta() {
-  // Save photo metadata (without image data – that's in Drive)
-  const meta = photos.map(p => ({ id: p.id, name: p.name, uploaderName: p.uploaderName, date: p.date, driveId: p.driveId, thumb: p.thumb }));
-  try { await window.storage.set('wedding_photos_meta', JSON.stringify(meta)); } catch {}
-}
-
-async function saveMessages() {
-  try { await window.storage.set('wedding_messages', JSON.stringify(messages)); } catch {}
-}
-
-// ── Google Drive Upload ────────────────────────────────────────────────────
-async function uploadToDrive(file, name) {
-  // 1. Create file metadata
-  const meta = { name, parents: [FOLDER_ID] };
+async function uploadToNAS(files) {
+  const session = loadSession();
   const form = new FormData();
-  form.append('metadata', new Blob([JSON.stringify(meta)], { type: 'application/json' }));
-  form.append('file', file);
-
-  const r = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webContentLink,thumbnailLink', {
+  files.forEach(f => form.append('photos', f));
+  const r = await fetch(`${NAS_API_URL}/api/upload`, {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + accessToken },
+    headers: {
+      'x-upload-code': session?.code || '',
+      'x-guest-name': uploaderName
+    },
     body: form
   });
-
-  if (!r.ok) throw new Error('Drive upload failed: ' + r.status);
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({}));
+    throw new Error(err.error || `Upload fehlgeschlagen (${r.status})`);
+  }
   return await r.json();
-}
-
-async function makeDriveFilePublic(fileId) {
-  await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}/permissions`, {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ role: 'reader', type: 'anyone' })
-  });
-}
-
-async function getDriveThumb(fileId) {
-  // Use Drive thumbnail URL
-  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
 }
 
 // ── Upload Flow ────────────────────────────────────────────────────────────
@@ -364,69 +341,27 @@ function cancelUpload() {
   render();
 }
 
-async function ensureToken() {
-  // If token still valid, nothing to do
-  if (accessToken && Date.now() < tokenExpiry) return true;
-  // Try silent refresh (no popup)
-  return new Promise((resolve) => {
-    tokenClient.requestAccessToken({ prompt: '' });
-    // Wait briefly for callback
-    const check = setInterval(() => {
-      if (accessToken && Date.now() < tokenExpiry) {
-        clearInterval(check);
-        resolve(true);
-      }
-    }, 200);
-    setTimeout(() => { clearInterval(check); resolve(!!accessToken); }, 5000);
-  });
-}
-
 async function uploadPhotos() {
   if (!uploaderName.trim()) { showToast('Bitte deinen Namen eingeben 🌿'); return; }
-  if (!accessToken) { showToast('Bitte zuerst anmelden'); return; }
-  // Silently refresh token if needed
-  await ensureToken();
-  uploading = true; uploadProgress = 0; uploadStep = 'Vorbereitung…'; render();
+  uploading = true; uploadProgress = 0; uploadStep = 'Wird hochgeladen…'; render();
 
-  const newPhotos = [];
-  for (let i = 0; i < pendingFiles.length; i++) {
-    const file = pendingFiles[i];
-    uploadStep = `Foto ${i+1} von ${pendingFiles.length} wird hochgeladen…`;
-    uploadProgress = Math.round((i / pendingFiles.length) * 100);
+  try {
+    uploadStep = `${pendingFiles.length} Foto${pendingFiles.length>1?'s':''} werden hochgeladen…`;
     updateProgress();
+    const result = await uploadToNAS(pendingFiles);
+    uploadProgress = 100; updateProgress();
 
-    try {
-      // Upload to Drive
-      const fname = `${uploaderName.trim()}_${Date.now()}_${file.name}`;
-      const driveFile = await uploadToDrive(file, fname);
-      await makeDriveFilePublic(driveFile.id);
-      const thumb = await getDriveThumb(driveFile.id);
-
-      // Create local thumb for gallery display
-      const localThumb = await compressImage(file, 400, 0.7);
-
-      newPhotos.push({
-        id: driveFile.id,
-        name: fname,
-        driveId: driveFile.id,
-        thumb: localThumb,
-        uploaderName: uploaderName.trim(),
-        date: new Date().toLocaleDateString('de-AT', {day:'2-digit',month:'long',year:'numeric'}),
-        timestamp: Date.now()
-      });
-    } catch(e) {
-      showToast(`Fehler bei Foto ${i+1}: ${e.message}`);
-    }
+    pendingPreviews.forEach(u => URL.revokeObjectURL(u));
+    pendingFiles = []; pendingPreviews = [];
+    uploading = false;
+    showToast(`${result.uploaded} Foto${result.uploaded>1?'s':''} auf NAS gespeichert ✨`);
+    await loadData();
+    showTab('gallery');
+  } catch(e) {
+    uploading = false;
+    showToast(`Fehler: ${e.message}`);
+    render();
   }
-
-  photos = [...newPhotos, ...photos];
-  await saveMeta();
-
-  pendingPreviews.forEach(u => URL.revokeObjectURL(u));
-  pendingFiles = []; pendingPreviews = [];
-  uploading = false;
-  showToast(`${newPhotos.length} Foto${newPhotos.length>1?'s':''} in Google Drive gespeichert ✨`);
-  showTab('gallery');
 }
 
 function updateProgress() {
@@ -459,17 +394,21 @@ async function compressImage(file, maxDim=1200, quality=0.78) {
 // ── Guestbook ──────────────────────────────────────────────────────────────
 async function sendMessage() {
   if (!guestName.trim() || !guestMsg.trim()) { showToast('Bitte Name und Nachricht ausfüllen'); return; }
-  const entry = {
-    id: Date.now(),
-    name: guestName.trim(),
-    text: guestMsg.trim(),
-    date: new Date().toLocaleDateString('de-AT', {day:'2-digit',month:'long',year:'numeric'})
-  };
-  messages = [entry, ...messages];
-  await saveMessages();
-  guestName = ''; guestMsg = '';
-  showToast('Nachricht gespeichert 💌');
-  render();
+  try {
+    const r = await fetch(`${NAS_API_URL}/api/message`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: guestName.trim(), text: guestMsg.trim() })
+    });
+    if (!r.ok) throw new Error('Fehler beim Speichern');
+    const entry = await r.json();
+    messages = [entry, ...messages];
+    guestName = ''; guestMsg = '';
+    showToast('Nachricht gespeichert 💌');
+    render();
+  } catch(e) {
+    showToast(`Fehler: ${e.message}`);
+  }
 }
 
 // ── Render ─────────────────────────────────────────────────────────────────
@@ -482,7 +421,7 @@ function showTab(tab) {
 }
 
 function render() {
-  if (!accessToken) return;
+  if (!isLoggedIn) return;
   const content = document.getElementById('content');
   if (currentTab === 'gallery') content.innerHTML = renderGallery();
   else if (currentTab === 'upload') content.innerHTML = renderUpload();
@@ -531,7 +470,7 @@ function renderGallery() {
     filtered.forEach((p) => {
       const origIdx = photos.indexOf(p);
       html += `<div class="photo-cell" onclick="openLightbox(${origIdx})">
-        <img src="${p.thumb}" loading="lazy">
+        <img src="${p.thumbUrl || p.photoUrl}" loading="lazy">
         <div class="photo-cell-name">${esc(p.uploaderName)}</div>
       </div>`;
     });
@@ -557,7 +496,7 @@ function renderUpload() {
       <div class="drop-icon">🌸</div>
       <h3>Fotos hinzufügen</h3>
       <p>Antippen oder hierher ziehen</p>
-      <p style="margin-top:6px;opacity:0.6;font-size:11px">Fotos werden in Google Drive gespeichert ☁️</p>
+      <p style="margin-top:6px;opacity:0.6;font-size:11px">Fotos werden auf dem NAS gespeichert 🏠</p>
     </div>
   </div>`;
 }
@@ -575,7 +514,7 @@ function renderUploadConfirm() {
     <div class="preview-grid">${previews}</div>
     ${prog}
     <button class="btn-primary" onclick="uploadPhotos()" ${uploading?'disabled':''}>
-      ${uploading?'<span class="spinner"></span> Wird in Google Drive hochgeladen…':'Fotos hochladen ☁️'}
+      ${uploading?'<span class="spinner"></span> Wird hochgeladen…':'Fotos hochladen ☁️'}
     </button>
     <button class="btn-secondary" onclick="cancelUpload()" ${uploading?'disabled':''}>Abbrechen</button>
   </div>`;
@@ -608,19 +547,17 @@ function renderGuestbook() {
 }
 
 function renderShare() {
-  const driveUrl = `https://drive.google.com/drive/folders/${FOLDER_ID}`;
   return `<div class="share-section">
     <div class="share-card">
-      <h3>Google Drive Album</h3>
-      <p>Alle hochgeladenen Fotos findet ihr direkt in eurem Google Drive Ordner.</p>
-      <a href="${driveUrl}" target="_blank" class="drive-link">
-        <span class="drive-link-icon">📁</span>
+      <h3>Foto-Album</h3>
+      <p>Alle Fotos werden sicher auf unserem eigenen Server gespeichert.</p>
+      <div class="drive-link" style="cursor:default">
+        <span class="drive-link-icon">🏠</span>
         <div class="drive-link-text">
           <div class="drive-link-title">Hochzeit Fotos 2026</div>
-          <div class="drive-link-sub">Google Drive öffnen</div>
+          <div class="drive-link-sub">${photos.length} Foto${photos.length!==1?'s':''} gespeichert</div>
         </div>
-        <span style="margin-left:auto;color:var(--dust)">→</span>
-      </a>
+      </div>
       <button class="btn-primary" onclick="copyLink()">App-Link kopieren 🌿</button>
     </div>
     <div class="install-card">
@@ -633,7 +570,7 @@ function renderShare() {
 // ── Lightbox ───────────────────────────────────────────────────────────────
 function openLightbox(i) {
   const p = photos[i];
-  document.getElementById('lb-img').src = p.thumb;
+  document.getElementById('lb-img').src = p.photoUrl || p.thumbUrl || '';
   document.getElementById('lb-name').textContent = p.uploaderName;
   document.getElementById('lb-date').textContent = p.date;
   document.getElementById('lightbox').style.display = 'flex';
@@ -669,45 +606,33 @@ document.getElementById('lightbox').addEventListener('click', function(e) {
 });
 
 // ── Persistent Login ──────────────────────────────────────────────────────
-const TOKEN_KEY = 'wedding_gtoken';
-const USER_KEY  = 'wedding_guser';
+const SESSION_KEY = 'wedding_session';
 
-function saveSession(token, user) {
+function saveSession(code, name) {
   try {
-    localStorage.setItem(TOKEN_KEY, JSON.stringify({ token, exp: Date.now() + 36*60*60*1000 }));
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 36*60*60*1000 }));
   } catch {}
 }
 
 function loadSession() {
   try {
-    const t = JSON.parse(localStorage.getItem(TOKEN_KEY));
-    const u = JSON.parse(localStorage.getItem(USER_KEY));
-    if (t && u && Date.now() < t.exp) return { token: t.token, user: u };
+    const s = JSON.parse(localStorage.getItem(SESSION_KEY));
+    if (s && Date.now() < s.exp) return s;
   } catch {}
   return null;
 }
 
 function clearSession() {
-  try { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); } catch {}
+  try { localStorage.removeItem(SESSION_KEY); } catch {}
 }
 
 // ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  const check = setInterval(() => {
-    if (window.google?.accounts?.oauth2) {
-      clearInterval(check);
-      initGoogle();
-      // Try to restore session
-      const session = loadSession();
-      if (session) {
-        accessToken = session.token;
-        currentUser = session.user;
-        uploaderName = currentUser.name || '';
-        onSignedIn();
-      }
-    }
-  }, 100);
+  const session = loadSession();
+  if (session) {
+    uploaderName = session.name || '';
+    onSignedIn();
+  }
 });
 </script>
 </body>
