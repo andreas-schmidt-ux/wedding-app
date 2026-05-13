@@ -447,7 +447,7 @@ function renderGallery() {
     html += `<button onclick="setFilter('')" style="flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--dust);background:${activeFilter===''?'var(--bark)':'transparent'};color:${activeFilter===''?'white':'var(--bark)'};font-family:Jost,sans-serif;font-size:11px;letter-spacing:0.1em;cursor:pointer;">Alle</button>`;
     guests.forEach(g => {
       const active = activeFilter === g;
-      html += `<button onclick="setFilter('${g.replace(/'/g,"\'")}'')" style="flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--dust);background:${active?'var(--terra)':'transparent'};color:${active?'white':'var(--bark)'};font-family:Jost,sans-serif;font-size:11px;letter-spacing:0.1em;cursor:pointer;">${esc(g)}</button>`;
+      html += `<button onclick="setFilter('${g.replace(/'/g,"\\&#39;")}')" style="flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--dust);background:${active?'var(--terra)':'transparent'};color:${active?'white':'var(--bark)'};font-family:Jost,sans-serif;font-size:11px;letter-spacing:0.1em;cursor:pointer;">${esc(g)}</button>`;
     });
     html += '</div>';
   }
