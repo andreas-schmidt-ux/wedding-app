@@ -128,7 +128,12 @@
     .lightbox-meta { margin-top: 20px; text-align: center; color: var(--cream); }
     .lightbox-meta .name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; }
     .lightbox-meta .date { font-size: 12px; opacity: 0.5; margin-top: 4px; }
-    .lightbox-close { position: absolute; top: calc(var(--safe-top) + 16px); right: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 18px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .lightbox-close { position: absolute; top: calc(var(--safe-top) + 16px); right: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 18px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; }
+    .lightbox-download { position: absolute; top: calc(var(--safe-top) + 16px); right: 72px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 18px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; z-index: 2; }
+    .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 22px; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; }
+    .lightbox-nav.prev { left: 12px; }
+    .lightbox-nav.next { right: 12px; }
+    .lightbox video { max-width: 100%; max-height: 75vh; border-radius: 4px; }
 
     /* SPINNER */
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -192,7 +197,11 @@
 
 <div class="lightbox" id="lightbox" style="display:none">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <a class="lightbox-download" id="lb-download" href="" download title="Herunterladen">⬇</a>
+  <button class="lightbox-nav prev" id="lb-prev" onclick="navLightbox(-1)">‹</button>
+  <button class="lightbox-nav next" id="lb-next" onclick="navLightbox(1)">›</button>
   <img id="lb-img" src="" alt="">
+  <video id="lb-video" src="" controls playsinline style="display:none"></video>
   <div class="lightbox-meta">
     <div class="name" id="lb-name"></div>
     <div class="date" id="lb-date"></div>
@@ -200,7 +209,7 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<input type="file" id="fileInput" accept="image/*" multiple onchange="handleFileInput(this.files)">
+<input type="file" id="fileInput" accept="image/*,video/*" multiple onchange="handleFileInput(this.files)">
 
 <script>
 const NAS_API_URL = 'https://synology-s.tail80635c.ts.net';
@@ -255,6 +264,7 @@ function signOut() {
   document.getElementById('content').innerHTML = renderSignIn();
 }
 
+let refreshTimer;
 function onSignedIn() {
   isLoggedIn = true;
   renderAuthBar();
@@ -262,6 +272,8 @@ function onSignedIn() {
   document.getElementById('bottomNav').style.display = 'flex';
   loadData();
   showTab('gallery');
+  clearInterval(refreshTimer);
+  refreshTimer = setInterval(() => { if (isLoggedIn && !uploading) loadData(); }, 30000);
 }
 
 function renderSignIn() {
@@ -323,7 +335,7 @@ function handleDrop(e) { e.preventDefault(); handleFiles(e.dataTransfer.files); 
 function handleFileInput(files) { handleFiles(files); }
 
 function handleFiles(files) {
-  const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
+  const arr = Array.from(files).filter(f => f.type.startsWith('image/') || f.type.startsWith('video/'));
   if (!arr.length) return;
   pendingFiles = arr;
   pendingPreviews = arr.map(f => URL.createObjectURL(f));
@@ -464,10 +476,10 @@ function renderGallery() {
     html += `<div class="empty"><h3>Keine Fotos</h3><p>Noch keine Fotos von ${esc(activeFilter)}</p></div>`;
   } else {
     html += '<div class="photo-grid">';
-    filtered.forEach((p) => {
-      const origIdx = photos.indexOf(p);
-      html += `<div class="photo-cell" onclick="openLightbox(${origIdx})">
-        <img src="${p.thumbUrl || p.photoUrl}" loading="lazy">
+    filtered.forEach((p, idx) => {
+      const isVideo = p.mimetype && p.mimetype.startsWith('video/');
+      html += `<div class="photo-cell" onclick="openLightbox(${idx})">
+        ${isVideo ? `<div style="position:relative"><img src="${p.thumbUrl || ''}" loading="lazy"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:32px;text-shadow:0 2px 8px rgba(0,0,0,0.5)">▶</span></div>` : `<img src="${p.thumbUrl || p.photoUrl}" loading="lazy">`}
         <div class="photo-cell-name">${esc(p.uploaderName)}</div>
       </div>`;
     });
@@ -493,7 +505,7 @@ function renderUpload() {
       <div class="drop-icon">🌸</div>
       <h3>Fotos hinzufügen</h3>
       <p>Antippen oder hierher ziehen</p>
-      <p style="margin-top:6px;opacity:0.6;font-size:11px">Fotos werden auf dem NAS gespeichert 🏠</p>
+      <p style="margin-top:6px;opacity:0.6;font-size:11px">Fotos & Videos werden auf dem NAS gespeichert 🏠</p>
     </div>
   </div>`;
 }
@@ -544,6 +556,8 @@ function renderGuestbook() {
 }
 
 function renderShare() {
+  const appUrl = window.location.href;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(appUrl)}&bgcolor=F5F0EB&color=3D2A1E`;
   return `<div class="share-section">
     <div class="share-card">
       <h3>Foto-Album</h3>
@@ -555,6 +569,10 @@ function renderShare() {
           <div class="drive-link-sub">${photos.length} Foto${photos.length!==1?'s':''} gespeichert</div>
         </div>
       </div>
+      <div style="text-align:center;margin:20px 0">
+        <img src="${qrUrl}" alt="QR Code" style="width:180px;height:180px;border-radius:8px;border:1px solid var(--dust)">
+        <p style="font-size:11px;color:var(--dust);margin-top:8px">QR-Code scannen zum Öffnen</p>
+      </div>
       <button class="btn-primary" onclick="copyLink()">App-Link kopieren 🌿</button>
     </div>
     <div class="install-card">
@@ -565,18 +583,54 @@ function renderShare() {
 }
 
 // ── Lightbox ───────────────────────────────────────────────────────────────
+let currentLightboxIndex = -1;
+let lightboxList = [];
+
 function openLightbox(i) {
-  const p = photos[i];
-  document.getElementById('lb-img').src = p.photoUrl || p.thumbUrl || '';
-  document.getElementById('lb-name').textContent = p.uploaderName;
-  document.getElementById('lb-date').textContent = p.date;
+  const sorted = [...photos].sort((a, b) => b.timestamp - a.timestamp);
+  lightboxList = activeFilter ? sorted.filter(p => p.uploaderName === activeFilter) : sorted;
+  currentLightboxIndex = i;
+  showLightboxPhoto();
   document.getElementById('lightbox').style.display = 'flex';
   document.body.style.overflow = 'hidden';
+}
+
+function showLightboxPhoto() {
+  const p = lightboxList[currentLightboxIndex];
+  if (!p) return;
+  const isVideo = p.mimetype && p.mimetype.startsWith('video/');
+  const img = document.getElementById('lb-img');
+  const vid = document.getElementById('lb-video');
+  if (isVideo) {
+    img.style.display = 'none';
+    vid.style.display = 'block';
+    vid.src = p.photoUrl;
+  } else {
+    vid.style.display = 'none';
+    vid.pause && vid.pause();
+    img.style.display = 'block';
+    img.src = p.photoUrl || p.thumbUrl || '';
+  }
+  document.getElementById('lb-name').textContent = p.uploaderName;
+  document.getElementById('lb-date').textContent = p.date;
+  document.getElementById('lb-download').href = p.photoUrl;
+  document.getElementById('lb-prev').style.visibility = currentLightboxIndex > 0 ? 'visible' : 'hidden';
+  document.getElementById('lb-next').style.visibility = currentLightboxIndex < lightboxList.length - 1 ? 'visible' : 'hidden';
+}
+
+function navLightbox(dir) {
+  const next = currentLightboxIndex + dir;
+  if (next < 0 || next >= lightboxList.length) return;
+  currentLightboxIndex = next;
+  showLightboxPhoto();
 }
 
 function closeLightbox() {
   document.getElementById('lightbox').style.display = 'none';
   document.body.style.overflow = '';
+  const vid = document.getElementById('lb-video');
+  vid.pause && vid.pause();
+  vid.src = '';
 }
 
 // ── Utils ──────────────────────────────────────────────────────────────────
@@ -601,6 +655,23 @@ function esc(str) {
 document.getElementById('lightbox').addEventListener('click', function(e) {
   if (e.target === this) closeLightbox();
 });
+
+document.addEventListener('keydown', function(e) {
+  if (document.getElementById('lightbox').style.display !== 'flex') return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navLightbox(-1);
+  if (e.key === 'ArrowRight') navLightbox(1);
+});
+
+(function() {
+  let tx = 0;
+  const lb = document.getElementById('lightbox');
+  lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 60) navLightbox(dx > 0 ? -1 : 1);
+  });
+})();
 
 // ── Persistent Login ──────────────────────────────────────────────────────
 const SESSION_KEY = 'wedding_session';
