@@ -607,7 +607,7 @@ const SESSION_KEY = 'wedding_session';
 
 function saveSession(code, name) {
   try {
-    localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 72*60*60*1000 }));
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 96*60*60*1000 }));
   } catch {}
 }
 
