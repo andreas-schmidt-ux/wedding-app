@@ -204,7 +204,6 @@
 
 <script>
 const NAS_API_URL = 'https://landowner-travel-customs.ngrok-free.dev';
-const NAS_HEADERS = { 'ngrok-skip-browser-warning': 'true' };
 
 let isLoggedIn = false;
 let photos = [];
@@ -232,7 +231,7 @@ async function verifyCode() {
   if (btn) { btn.disabled = true; btn.textContent = 'Verbinde…'; }
 
   try {
-    const r = await fetch(`${NAS_API_URL}/api/health`, { headers: NAS_HEADERS });
+    const r = await fetch(`${NAS_API_URL}/api/health`);
     if (!r.ok) throw new Error('Server nicht erreichbar');
     const data = await r.json();
     if (data.status !== 'ok') throw new Error('Server Fehler');
@@ -287,7 +286,7 @@ function renderAuthBar() {
 // ── Storage (NAS API) ──────────────────────────────────────────────────────
 async function loadData() {
   try {
-    const r = await fetch(`${NAS_API_URL}/api/photos`, { headers: NAS_HEADERS });
+    const r = await fetch(`${NAS_API_URL}/api/photos`);
     const list = r.ok ? await r.json() : [];
     photos = list.map(p => ({
       ...p,
@@ -296,7 +295,7 @@ async function loadData() {
     }));
   } catch { photos = []; }
   try {
-    const r = await fetch(`${NAS_API_URL}/api/messages`, { headers: NAS_HEADERS });
+    const r = await fetch(`${NAS_API_URL}/api/messages`);
     messages = r.ok ? await r.json() : [];
   } catch { messages = []; }
   render();
@@ -306,13 +305,10 @@ async function uploadToNAS(files) {
   const session = loadSession();
   const form = new FormData();
   files.forEach(f => form.append('photos', f));
+  form.append('code', session?.code || '');
+  form.append('guestName', uploaderName);
   const r = await fetch(`${NAS_API_URL}/api/upload`, {
     method: 'POST',
-    headers: {
-      ...NAS_HEADERS,
-      'x-upload-code': session?.code || '',
-      'x-guest-name': uploaderName
-    },
     body: form
   });
   if (!r.ok) {
@@ -399,8 +395,7 @@ async function sendMessage() {
   try {
     const r = await fetch(`${NAS_API_URL}/api/message`, {
       method: 'POST',
-      headers: { ...NAS_HEADERS, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: guestName.trim(), text: guestMsg.trim() })
+      body: new URLSearchParams({ name: guestName.trim(), text: guestMsg.trim() })
     });
     if (!r.ok) throw new Error('Fehler beim Speichern');
     const entry = await r.json();
