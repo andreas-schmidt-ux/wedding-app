@@ -683,7 +683,7 @@ function onSignedIn() {
   loadData();
   showTab('program');
   clearInterval(refreshTimer);
-  refreshTimer = setInterval(() => { if (isLoggedIn && !uploading) loadData(); }, 30000);
+  refreshTimer = setInterval(() => { if (isLoggedIn && !uploading) { loadData(); refreshSession(); } }, 30000);
 }
 
 function renderSignIn() {
@@ -1099,13 +1099,14 @@ const SESSION_KEY = 'wedding_session_A';
 function saveSession(code, name) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 96*60*60*1000 })); } catch {} }
 function loadSession() { try { const s = JSON.parse(localStorage.getItem(SESSION_KEY)); if (s && Date.now() < s.exp) return s; } catch {} return null; }
 function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch {} }
+function refreshSession() { const s = loadSession(); if (s) saveSession(s.code, s.name); }
 
 // ── DEMO mode removed for production ──
 
 window.addEventListener('load', () => {
   document.getElementById('content').innerHTML = renderSignIn();
   const session = loadSession();
-  if (session) { uploaderName = session.name || ''; onSignedIn(); }
+  if (session) { uploaderName = session.name || ''; saveSession(session.code, session.name); onSignedIn(); }
 });
 </script>
 </body>
