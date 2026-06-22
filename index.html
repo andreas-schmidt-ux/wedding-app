@@ -655,8 +655,16 @@ async function verifyCode() {
   const btn = document.querySelector('.signin-screen .btn-primary');
   if (btn) { btn.disabled = true; btn.querySelector('.label').textContent = 'Verbinde…'; }
   try {
-    const r = await fetch(`${NAS_API_URL}/api/health`);
-    if (!r.ok) throw new Error('Server nicht erreichbar');
+    const r = await fetch(`${NAS_API_URL}/api/verify?code=${encodeURIComponent(code)}`);
+    if (r.ok) {
+      const data = await r.json().catch(() => null);
+      if (data && data.valid === false) {
+        showToast('Falscher Einladungscode 🌿');
+        if (btn) { btn.disabled = false; btn.querySelector('.label').textContent = 'Weiter'; }
+        return;
+      }
+    }
+    // r nicht ok (z.B. älterer Server ohne /api/verify): Login trotzdem zulassen
   } catch {
     showToast('Verbindung zum Server fehlgeschlagen');
     if (btn) { btn.disabled = false; btn.querySelector('.label').textContent = 'Weiter'; }
@@ -891,6 +899,15 @@ function renderProgram() {
 
 function setFilter(name) { activeFilter = name; render(); }
 
+let gallerySort = 'newest';
+function setSort(mode) { gallerySort = mode; render(); }
+function photoTime(p) { return p.captureTime || p.timestamp || 0; }
+function sortedPhotos() {
+  const arr = [...photos].sort((a, b) => photoTime(b) - photoTime(a));
+  if (gallerySort === 'oldest') arr.reverse();
+  return arr;
+}
+
 function renderGallery() {
   const guests = [...new Set(photos.map(p => p.uploaderName))].sort();
   const guestCount = new Set([...photos.map(p => p.uploaderName), ...messages.map(m => m.name)]).size;
@@ -910,7 +927,14 @@ function renderGallery() {
     html += '</div>';
   }
 
-  const sorted = [...photos].sort((a, b) => b.timestamp - a.timestamp);
+  if (photos.length > 0) {
+    html += `<div class="chips-row">
+      <button class="chip ${gallerySort==='newest'?'active':''}" onclick="setSort('newest')">Neueste</button>
+      <button class="chip ${gallerySort==='oldest'?'active':''}" onclick="setSort('oldest')">Chronologisch</button>
+    </div>`;
+  }
+
+  const sorted = sortedPhotos();
   const filtered = activeFilter ? sorted.filter(p => p.uploaderName === activeFilter) : sorted;
 
   if (photos.length === 0) {
@@ -1018,6 +1042,9 @@ function renderShare() {
       <button class="btn-primary" onclick="copyLink()">
         <span>App-Link kopieren</span>
       </button>
+      <button class="btn-secondary" onclick="downloadAll()">
+        <span>Alle Fotos als ZIP</span>
+      </button>
     </div>
     <div class="install-card">
       <h3>Als App speichern</h3>
@@ -1030,7 +1057,7 @@ function renderShare() {
 // ── Lightbox ───────────────────────────────────────────────────────────────
 let currentLightboxIndex = -1; let lightboxList = [];
 function openLightbox(i) {
-  const sorted = [...photos].sort((a, b) => b.timestamp - a.timestamp);
+  const sorted = sortedPhotos();
   lightboxList = activeFilter ? sorted.filter(p => p.uploaderName === activeFilter) : sorted;
   currentLightboxIndex = i; showLightboxPhoto();
   document.getElementById('lightbox').style.display = 'flex';
@@ -1065,6 +1092,12 @@ function copyLink() {
   const link = window.location.href.replace(/[?#].*$/, '');
   navigator.clipboard.writeText(link).then(() => showToast('Link kopiert'));
 }
+function downloadAll() {
+  if (!photos.length) { showToast('Noch keine Fotos'); return; }
+  const s = loadSession();
+  showToast('ZIP wird erstellt… ⏳');
+  window.location.href = `${NAS_API_URL}/api/download-all?code=${encodeURIComponent(s?.code || '')}`;
+}
 let toastTimer;
 function showToast(msg) {
   const el = document.getElementById('toast');
@@ -1097,7 +1130,7 @@ document.addEventListener('keydown', function(e) {
 
 // ── Session ───────────────────────────────────────────────────────────────
 const SESSION_KEY = 'wedding_session_A';
-function saveSession(code, name) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 96*60*60*1000 })); } catch {} }
+function saveSession(code, name) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 168*60*60*1000 })); } catch {} }
 function loadSession() { try { const s = JSON.parse(localStorage.getItem(SESSION_KEY)); if (s && Date.now() < s.exp) return s; } catch {} return null; }
 function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch {} }
 function refreshSession() { const s = loadSession(); if (s) saveSession(s.code, s.name); }
