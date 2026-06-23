@@ -186,6 +186,17 @@
     background: rgba(255,253,249,0.92); display: flex; align-items: center; justify-content: center;
     color: var(--bark);
   }
+  .photo-cell.selected .img-wrap { outline: 3px solid var(--terra); outline-offset: -3px; }
+  .photo-cell.selected img { transform: scale(1.03); }
+  .select-check {
+    position: absolute; top: 8px; left: 8px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(255,253,249,0.92); border: 1.5px solid var(--terra);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--terra); font-size: 14px; font-weight: 700;
+  }
+  .photo-cell.selected .select-check { background: var(--terra); color: #fff; }
+  .select-bar { display: flex; gap: 8px; padding: 8px 16px 0; }
 
   /* FORMS */
   .form-block { padding: 20px 24px; }
@@ -908,6 +919,26 @@ function sortedPhotos() {
   return arr;
 }
 
+let selectMode = false;
+let selected = new Set();
+function enterSelect() { selectMode = true; selected = new Set(); render(); }
+function exitSelect() { selectMode = false; selected = new Set(); render(); }
+function onPhotoClick(idx, filename) {
+  if (selectMode) toggleSelect(filename);
+  else openLightbox(idx);
+}
+function toggleSelect(filename) {
+  if (selected.has(filename)) selected.delete(filename); else selected.add(filename);
+  render();
+}
+function downloadSelected() {
+  if (!selected.size) { showToast('Nichts ausgewählt'); return; }
+  const s = loadSession();
+  const files = [...selected].join(',');
+  showToast('ZIP wird erstellt… ⏳');
+  window.location.href = `${NAS_API_URL}/api/download-selected?code=${encodeURIComponent(s?.code || '')}&files=${encodeURIComponent(files)}`;
+}
+
 function renderGallery() {
   const guests = [...new Set(photos.map(p => p.uploaderName))].sort();
   const guestCount = new Set([...photos.map(p => p.uploaderName), ...messages.map(m => m.name)]).size;
@@ -932,6 +963,14 @@ function renderGallery() {
       <button class="chip ${gallerySort==='newest'?'active':''}" onclick="setSort('newest')">Neueste</button>
       <button class="chip ${gallerySort==='oldest'?'active':''}" onclick="setSort('oldest')">Chronologisch</button>
     </div>`;
+    if (!selectMode) {
+      html += `<div class="select-bar"><button class="chip" onclick="enterSelect()">Auswählen</button></div>`;
+    } else {
+      html += `<div class="select-bar">
+        <button class="chip active" onclick="downloadSelected()">Auswahl laden (${selected.size})</button>
+        <button class="chip" onclick="exitSelect()">Abbrechen</button>
+      </div>`;
+    }
   }
 
   const sorted = sortedPhotos();
@@ -950,10 +989,12 @@ function renderGallery() {
     filtered.forEach((p, idx) => {
       const isVideo = p.mimetype && p.mimetype.startsWith('video/');
       const src = p.thumbUrl || p.photoUrl;
-      html += `<div class="photo-cell" onclick="openLightbox(${idx})">
+      const sel = selected.has(p.filename);
+      html += `<div class="photo-cell ${sel ? 'selected' : ''}" onclick="onPhotoClick(${idx}, '${p.filename}')">
         <div class="img-wrap">
           <img src="${src}" loading="lazy" alt="">
           ${isVideo ? `<span class="video-badge"><svg width="10" height="10"><use href="#i-play"/></svg></span>` : ''}
+          ${selectMode ? `<span class="select-check">${sel ? '✓' : ''}</span>` : ''}
         </div>
         <div class="photo-caption">
           <div class="name">${esc(p.uploaderName)}</div>
