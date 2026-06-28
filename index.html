@@ -761,8 +761,9 @@ async function uploadToNAS(files) {
 function handleDrop(e) { e.preventDefault(); handleFiles(e.dataTransfer.files); }
 function handleFileInput(files) { handleFiles(files); }
 function handleFiles(files) {
-  const arr = Array.from(files).filter(f => f.type.startsWith('image/') || f.type.startsWith('video/'));
-  if (!arr.length) return;
+  // iOS liefert für HEIC/Live-Photos oft einen leeren type → leere type ebenfalls zulassen
+  const arr = Array.from(files).filter(f => !f.type || f.type.startsWith('image/') || f.type.startsWith('video/'));
+  if (!arr.length) { showToast('Keine Fotos erkannt – bitte erneut versuchen'); return; }
   pendingFiles = arr;
   pendingPreviews = arr.map(f => URL.createObjectURL(f));
   currentTab = 'upload';
