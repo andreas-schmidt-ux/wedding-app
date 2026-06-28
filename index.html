@@ -1172,7 +1172,7 @@ document.addEventListener('keydown', function(e) {
 
 // ── Session ───────────────────────────────────────────────────────────────
 const SESSION_KEY = 'wedding_session_A';
-function saveSession(code, name) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 168*60*60*1000 })); } catch {} }
+function saveSession(code, name) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ code, name, exp: Date.now() + 17*24*60*60*1000 })); } catch {} }
 function loadSession() { try { const s = JSON.parse(localStorage.getItem(SESSION_KEY)); if (s && Date.now() < s.exp) return s; } catch {} return null; }
 function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch {} }
 function refreshSession() { const s = loadSession(); if (s) saveSession(s.code, s.name); }
