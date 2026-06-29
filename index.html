@@ -197,6 +197,7 @@
   }
   .photo-cell.selected .select-check { background: var(--terra); color: #fff; }
   .select-bar { display: flex; gap: 8px; padding: 8px 16px 0; }
+  .video-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #2a1d14, #4a3526); }
 
   /* FORMS */
   .form-block { padding: 20px 24px; }
@@ -989,11 +990,13 @@ function renderGallery() {
     html += '<div class="photo-grid">';
     filtered.forEach((p, idx) => {
       const isVideo = p.mimetype && p.mimetype.startsWith('video/');
-      const src = p.thumbUrl || p.photoUrl;
       const sel = selected.has(p.filename);
+      const inner = (isVideo && !p.thumbUrl)
+        ? `<div class="video-placeholder"></div>`
+        : `<img src="${p.thumbUrl || p.photoUrl}" loading="lazy" alt="">`;
       html += `<div class="photo-cell ${sel ? 'selected' : ''}" onclick="onPhotoClick(${idx}, '${p.filename}')">
         <div class="img-wrap">
-          <img src="${src}" loading="lazy" alt="">
+          ${inner}
           ${isVideo ? `<span class="video-badge"><svg width="10" height="10"><use href="#i-play"/></svg></span>` : ''}
           ${selectMode ? `<span class="select-check">${sel ? '✓' : ''}</span>` : ''}
         </div>
