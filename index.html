@@ -915,6 +915,7 @@ function setFilter(name) { activeFilter = name; render(); }
 let gallerySort = 'newest';
 function setSort(mode) { gallerySort = mode; render(); }
 function photoTime(p) { return p.captureTime || p.timestamp || 0; }
+function isVideoFile(p) { return (p.mimetype && p.mimetype.startsWith('video/')) || /\.(mp4|mov|m4v|avi|webm|3gp)$/i.test(p.filename || ''); }
 function sortedPhotos() {
   const arr = [...photos].sort((a, b) => photoTime(b) - photoTime(a));
   if (gallerySort === 'oldest') arr.reverse();
@@ -989,7 +990,7 @@ function renderGallery() {
     html += '<div class="section-header">Erinnerungen</div>';
     html += '<div class="photo-grid">';
     filtered.forEach((p, idx) => {
-      const isVideo = p.mimetype && p.mimetype.startsWith('video/');
+      const isVideo = isVideoFile(p);
       const sel = selected.has(p.filename);
       const inner = (isVideo && !p.thumbUrl)
         ? `<div class="video-placeholder"></div>`
@@ -1110,7 +1111,7 @@ function openLightbox(i) {
 }
 function showLightboxPhoto() {
   const p = lightboxList[currentLightboxIndex]; if (!p) return;
-  const isVideo = p.mimetype && p.mimetype.startsWith('video/');
+  const isVideo = isVideoFile(p);
   const img = document.getElementById('lb-img');
   const vid = document.getElementById('lb-video');
   if (isVideo) { img.style.display='none'; vid.style.display='block'; vid.src=p.photoUrl; }
