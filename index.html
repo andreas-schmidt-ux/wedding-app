@@ -747,15 +747,46 @@ async function loadData() {
   render();
 }
 
-async function uploadToNAS(files) {
-  const session = loadSession();
-  const form = new FormData();
-  files.forEach(f => form.append('photos', f));
-  form.append('code', session?.code || '');
-  form.append('guestName', uploaderName);
-  const r = await fetch(`${NAS_API_URL}/api/upload`, { method: 'POST', body: form });
-  if (!r.ok) { const err = await r.json().catch(() => ({})); throw new Error(err.error || `Upload fehlgeschlagen (${r.status})`); }
-  return await r.json();
+function uploadBatch(files, onProgress) {
+  return new Promise((resolve, reject) => {
+    const session = loadSession();
+    const form = new FormData();
+    files.forEach(f => form.append('photos', f));
+    form.append('code', session?.code || '');
+    form.append('guestName', uploaderName);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `${NAS_API_URL}/api/upload`);
+    xhr.timeout = 600000; // 10 Min pro Paket (große Videos über langsamen Tunnel)
+    xhr.upload.onprogress = e => { if (e.lengthComputable && onProgress) onProgress(e.loaded, e.total); };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { resolve(JSON.parse(xhr.responseText)); } catch { resolve({ uploaded: files.length }); }
+      } else {
+        let msg = `Upload fehlgeschlagen (${xhr.status})`;
+        try { msg = JSON.parse(xhr.responseText).error || msg; } catch {}
+        reject(new Error(msg));
+      }
+    };
+    xhr.onerror = () => reject(new Error('Netzwerkfehler – bitte nochmal versuchen'));
+    xhr.ontimeout = () => reject(new Error('Zeitüberschreitung – bitte nochmal versuchen'));
+    xhr.send(form);
+  });
+}
+
+// Dateien in kleine Pakete aufteilen (max. 4 Stück / ~25 MB) – eine Riesen-Anfrage
+// bricht auf iOS/über den Tunnel sonst still ab
+function buildBatches(files) {
+  const MAX_COUNT = 4, MAX_BYTES = 25 * 1024 * 1024;
+  const batches = [];
+  let cur = [], curBytes = 0;
+  for (const f of files) {
+    if (cur.length && (cur.length >= MAX_COUNT || curBytes + f.size > MAX_BYTES)) {
+      batches.push(cur); cur = []; curBytes = 0;
+    }
+    cur.push(f); curBytes += f.size;
+  }
+  if (cur.length) batches.push(cur);
+  return batches;
 }
 
 // ── Upload Flow ────────────────────────────────────────────────────────────
@@ -778,18 +809,43 @@ function cancelUpload() {
 }
 async function uploadPhotos() {
   if (!uploaderName.trim()) { showToast('Bitte deinen Namen eingeben'); return; }
-  uploading = true; uploadProgress = 0; uploadStep = 'Wird hochgeladen'; render();
+  uploading = true; uploadProgress = 0; render();
+  const files = [...pendingFiles];
+  const total = files.length;
+  const batches = buildBatches(files);
+  let done = 0;
   try {
-    uploadStep = `${pendingFiles.length} Foto${pendingFiles.length>1?'s':''} werden hochgeladen`;
-    updateProgress();
-    const result = await uploadToNAS(pendingFiles);
-    uploadProgress = 100; updateProgress();
+    for (const batch of batches) {
+      uploadStep = `${done} von ${total} hochgeladen…`;
+      updateProgress();
+      await uploadBatch(batch, (loaded, totalBytes) => {
+        const frac = totalBytes ? loaded / totalBytes : 0;
+        uploadProgress = Math.round(((done + frac * batch.length) / total) * 100);
+        uploadStep = `${done} von ${total} hochgeladen…`;
+        updateProgress();
+      });
+      done += batch.length;
+      uploadProgress = Math.round((done / total) * 100);
+      uploadStep = `${done} von ${total} hochgeladen…`;
+      updateProgress();
+    }
     pendingPreviews.forEach(u => URL.revokeObjectURL(u));
     pendingFiles = []; pendingPreviews = []; uploading = false;
-    showToast(`${result.uploaded} Foto${result.uploaded>1?'s':''} gespeichert`);
+    showToast(`${total} Foto${total>1?'s':''} gespeichert`);
     await loadData(); showTab('gallery');
   } catch(e) {
-    uploading = false; showToast(`Fehler: ${e.message}`); render();
+    uploading = false;
+    if (done > 0) {
+      // Bereits hochgeladene aus der Warteschlange nehmen – nur der Rest bleibt zum erneuten Versuch
+      pendingPreviews.slice(0, done).forEach(u => URL.revokeObjectURL(u));
+      pendingFiles = files.slice(done);
+      pendingPreviews = pendingPreviews.slice(done);
+      showToast(`${done} von ${total} gespeichert – Rest bitte nochmal hochladen (${e.message})`);
+      loadData();
+    } else {
+      showToast(`Fehler: ${e.message}`);
+    }
+    render();
   }
 }
 function updateProgress() {
